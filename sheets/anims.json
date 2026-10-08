@@ -1,0 +1,21 @@
+{
+  "sheet": "anims",
+  "about": "Animations of the pushing character, chosen from how the katamari moves. The converter matches 'match' (case-insensitive substrings, all must appear) against the AnimSequence names under the character's folder and samples the first hit at 30 fps.",
+  "columns": {
+    "id": { "type": "id", "about": "key used by the renderer" },
+    "character": { "type": "ref:characters", "about": "whose animation" },
+    "match": { "type": "list:string", "about": "substrings that must all be in the AnimSequence name" },
+    "avoid": { "type": "list:string", "about": "substrings that disqualify a name ('-' alone for none)" },
+    "when": { "type": "text", "about": "when the renderer plays it" },
+    "speed": { "type": "number", "about": "playback rate" },
+    "loop": { "type": "bool", "about": "loops" }
+  },
+  "rows": [
+    { "id": "idle", "character": "james", "match": ["idle"], "avoid": ["injur", "weapon", "pipe", "gun", "flashlight", "turn"], "when": "standing still", "speed": 1.0, "loop": true, "unverified": ["match", "avoid"] },
+    { "id": "walk", "character": "james", "match": ["walk", "f"], "avoid": ["injur", "weapon", "pipe", "gun", "start", "stop", "turn", "bwd", "back"], "when": "pushing slowly forward", "speed": 1.0, "loop": true, "unverified": ["match", "avoid"] },
+    { "id": "run", "character": "james", "match": ["run", "f"], "avoid": ["injur", "weapon", "pipe", "gun", "start", "stop", "turn", "bwd", "back"], "when": "pushing fast or dashing", "speed": 1.0, "loop": true, "unverified": ["match", "avoid"] },
+    { "id": "walk_back", "character": "james", "match": ["walk", "b"], "avoid": ["injur", "weapon", "pipe", "gun", "start", "stop", "turn"], "when": "pulling back", "speed": 1.0, "loop": true, "unverified": ["match", "avoid"] },
+    { "id": "strafe_left", "character": "james", "match": ["walk", "l"], "avoid": ["injur", "weapon", "pipe", "gun", "start", "stop", "turn"], "when": "pushing to the left", "speed": 1.0, "loop": true, "unverified": ["match", "avoid"] },
+    { "id": "strafe_right", "character": "james", "match": ["walk", "r"], "avoid": ["injur", "weapon", "pipe", "gun", "start", "stop", "turn"], "when": "pushing to the right", "speed": 1.0, "loop": true, "unverified": ["match", "avoid"] }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "sheet": "hud",
+  "about": "What is drawn on screen. Sprites and the font come from the player's Once Upon A KATAMARI when the converter found them (extract ouak_hud / ouak_font); otherwise the element is drawn plainly with a system font.",
+  "columns": {
+    "id": { "type": "id", "about": "key" },
+    "source": { "type": "ref:extract", "about": "converted content it uses, or '-'" },
+    "anchor": { "type": "enum:top_left|top_right|bottom_center|center", "about": "screen anchor at 1920x1080" },
+    "draw": { "type": "text", "about": "what is drawn" },
+    "text": { "type": "ref:strings", "about": "text row, or '-'" }
+  },
+  "rows": [
+    { "id": "size", "source": "ouak_hud", "anchor": "top_left", "draw": "Katamari's size display (its own sprites and layout when found): live size in cm/m, ring filling toward the next mark.", "text": "-", "unverified": ["source"] },
+    { "id": "goal", "source": "ouak_font", "anchor": "top_left", "draw": "Goal size under the size display.", "text": "-" },
+    { "id": "timer", "source": "ouak_font", "anchor": "top_right", "draw": "Time left as m:ss; turns red in the last minute.", "text": "-" },
+    { "id": "intro", "source": "ouak_font", "anchor": "center", "draw": "Goal line for the first 4 seconds.", "text": "goal_intro" },
+    { "id": "results", "source": "ouak_font", "anchor": "center", "draw": "Time's up, final size, success or not, how to roll again.", "text": "result_success" },
+    { "id": "count", "source": "ouak_font", "anchor": "top_left", "draw": "How many things are rolled up.", "text": "objects_left" },
+    { "id": "hint", "source": "ouak_font", "anchor": "bottom_center", "draw": "Controls, first 10 seconds only.", "text": "controls_hint" },
+    { "id": "notice", "source": "ouak_font", "anchor": "center", "draw": "Missing or unreadable game message, until dismissed with any key.", "text": "missing_ouak" }
+  ]
+}

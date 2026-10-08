@@ -1,0 +1,11 @@
+# Build outputs and anything converted from a player's games never enter git.
+/build/
+/dist/
+**/bin/
+**/obj/
+*.zip
+/addons/silent_katamari_content/
+/converter/out/
+/converter/publish/
+__pycache__/
+*.log

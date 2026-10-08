@@ -1,0 +1,31 @@
+{
+  "sheet": "hide",
+  "about": "Everything of Garry's Mod a player could see or hear, and how this mashup keeps it out of sight (the user asked that only Katamari and SILENT HILL 2 show). hideable = no rows are told to the user and stated on the listing.",
+  "columns": {
+    "id": { "type": "id", "about": "key" },
+    "element": { "type": "text", "about": "what of Garry's Mod would show" },
+    "how": { "type": "text", "about": "how it is hidden or replaced" },
+    "system": { "type": "ref:systems", "about": "system that does it" },
+    "hideable": { "type": "enum:yes|partly|no", "about": "can it be fully hidden" }
+  },
+  "rows": [
+    { "id": "sandbox_ui", "element": "Spawn menu (Q), context menu (C), Physics Gun, Tool Gun, undo", "how": "Own gamemode derived from base, not sandbox: none of these exist.", "system": "hide", "hideable": "yes", "unverified": ["how"] },
+    { "id": "loadout", "element": "Default weapons and their view models", "how": "PlayerLoadout gives nothing; PreDrawViewModel returns true.", "system": "hide", "hideable": "yes", "unverified": ["how"] },
+    { "id": "hud_default", "element": "Health, suit, ammo, crosshair, weapon selection, damage indicators, pickup history, hints, zoom, geiger, train/vehicle, squad, poison, chat box", "how": "HUDShouldDraw returns false for each CHud element in hud_elements; HUDDrawPickupHistory and HUDDrawTargetID do nothing.", "system": "hide", "hideable": "yes", "unverified": ["how"] },
+    { "id": "chat", "element": "Chat input and chat messages", "how": "PlayerBindPress blocks messagemode/messagemode2; CHudChat hidden; ChatText returns true.", "system": "hide", "hideable": "yes", "unverified": ["how"] },
+    { "id": "scoreboard", "element": "Tab scoreboard", "how": "ScoreboardShow/ScoreboardHide do nothing and return false.", "system": "hide", "hideable": "yes", "unverified": ["how"] },
+    { "id": "player_actions", "element": "Noclip (V), flashlight (F), sprays (T), suicide (kill), use (E), zoom (B), jump/crouch", "how": "PlayerNoClip, PlayerSwitchFlashlight, PlayerSpray, CanPlayerSuicide return false/true to block; control system strips the keys.", "system": "hide", "hideable": "yes", "unverified": ["how"] },
+    { "id": "player_body", "element": "The Garry's Mod player model and its shadow", "how": "Player is SetNoDraw and not solid; James is drawn instead.", "system": "player", "hideable": "yes", "unverified": ["how"] },
+    { "id": "pause_menu", "element": "Garry's Mod main menu shown as the pause menu (Esc)", "how": "OnPauseMenuShow returns false and our pause menu opens.", "system": "pause", "hideable": "yes", "unverified": ["how", "hideable"] },
+    { "id": "loading_screen", "element": "Garry's Mod loading screen", "how": "Launched with +sv_loadingurl pointing at our loading.html via asset://.", "system": "loading", "hideable": "partly", "unverified": ["how", "hideable"] },
+    { "id": "main_menu_start", "element": "Garry's Mod main menu for a moment at startup, before the map starts loading", "how": "Started with +map so it goes straight to loading; it can't be removed without editing base files (not allowed).", "system": "conv_cli", "hideable": "partly", "unverified": ["hideable"] },
+    { "id": "sky", "element": "gm_flatgrass sky", "how": "PreDrawSkyBox clears to the fog colour and returns true.", "system": "atmosphere", "hideable": "yes", "unverified": ["how"] },
+    { "id": "map", "element": "gm_flatgrass grass floor and walls", "how": "A ground plane covers the floor; fog end is far shorter than the distance to any wall; the stage stays in the middle.", "system": "atmosphere", "hideable": "yes", "unverified": ["how"] },
+    { "id": "physics_sounds", "element": "Half-Life 2 impact and scrape sounds from props", "how": "Objects use the default_silent physics material; only Katamari's own sounds play.", "system": "mono", "hideable": "yes", "unverified": ["how"] },
+    { "id": "fonts", "element": "Garry's Mod fonts", "how": "Katamari's font from the player's copy when found; otherwise a system font, never a Garry's Mod one.", "system": "hud", "hideable": "yes", "unverified": ["how"] },
+    { "id": "script_errors", "element": "Script error notices", "how": "No errors (preflight, luacheck, real-run log check).", "system": "hide", "hideable": "partly", "unverified": ["hideable"] },
+    { "id": "window_title", "element": "Window title 'Garry's Mod' and the taskbar icon", "how": "Not changeable from an addon.", "system": "conv_cli", "hideable": "no" },
+    { "id": "steam_status", "element": "Steam shows 'Playing Garry's Mod'", "how": "Not changeable; Melty starts Garry's Mod.", "system": "conv_cli", "hideable": "no" },
+    { "id": "listing", "element": "Melty page lists Garry's Mod as a required game", "how": "Required by Melty: players must own Garry's Mod.", "system": "conv_cli", "hideable": "no" }
+  ]
+}

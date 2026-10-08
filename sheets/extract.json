@@ -1,0 +1,33 @@
+{
+  "sheet": "extract",
+  "about": "Everything the converter reads from the player's own games and where it writes it, under garrysmod/addons/silent_katamari_content/ on that PC only. Nothing here is ever shipped. 'source' names what the converter looks for; patterns are confirmed by the probe on a real install.",
+  "columns": {
+    "id": { "type": "id", "about": "key" },
+    "game": { "type": "ref:games", "about": "game read" },
+    "kind": { "type": "enum:status|container_check|rule_table|object_set|sprite_set|font|sound|skeletal_mesh|anim_set|texture", "about": "converter handler" },
+    "source": { "type": "text", "about": "what the converter reads in that game" },
+    "output": { "type": "string", "about": "path written inside the content addon" },
+    "used_by": { "type": "ref:systems", "about": "game system that loads it" },
+    "required": { "type": "bool", "about": "true = without it the game named in 'game' counts as unreadable" }
+  },
+  "rows": [
+    { "id": "status", "game": "gmod", "kind": "status", "source": "result of every other row, converter version, each game's folder and Steam buildid", "output": "data_static/silent_katamari/status.json", "used_by": "content", "required": true },
+    { "id": "ouak_rules", "game": "ouak", "kind": "rule_table", "source": "MonoInfo entries (catch size, bounding box, volume rate) in the object table ScriptableObjects", "output": "data_static/silent_katamari/rules.json", "used_by": "growth", "required": true, "unverified": ["source"] },
+    { "id": "ouak_objects", "game": "ouak", "kind": "object_set", "source": "for each tier: objects from the object table whose size fits, their prefab's MeshFilter meshes and main textures", "output": "data_static/silent_katamari/objects.json (+ meshes/<id>.json, materials/silent_katamari/ouak/<tex>.png)", "used_by": "stage", "required": true, "unverified": ["source"] },
+    { "id": "ouak_hud", "game": "ouak", "kind": "sprite_set", "source": "the in-game size display prefab: its sprites, colours and layout", "output": "data_static/silent_katamari/hud.json (+ materials/silent_katamari/hud/<sprite>.png)", "used_by": "hud", "required": false, "unverified": ["source"] },
+    { "id": "ouak_font", "game": "ouak", "kind": "font", "source": "the Font asset used by the size display text", "output": "resource/fonts/silent_katamari.ttf", "used_by": "hud", "required": false, "unverified": ["source"] },
+    { "id": "ouak_snd_rollup_s", "game": "ouak", "kind": "sound", "source": "roll-up sound for small objects (CRI cue / AudioClip name containing 'maki' and the smallest size letter)", "output": "sound/silent_katamari/ouak/rollup_s.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "ouak_snd_rollup_m", "game": "ouak", "kind": "sound", "source": "roll-up sound for middle-sized objects", "output": "sound/silent_katamari/ouak/rollup_m.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "ouak_snd_rollup_l", "game": "ouak", "kind": "sound", "source": "roll-up sound for big objects", "output": "sound/silent_katamari/ouak/rollup_l.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "ouak_snd_hit", "game": "ouak", "kind": "sound", "source": "bump sound when hitting something too big", "output": "sound/silent_katamari/ouak/hit.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "ouak_snd_dash", "game": "ouak", "kind": "sound", "source": "dash sound", "output": "sound/silent_katamari/ouak/dash.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "ouak_snd_scaleup", "game": "ouak", "kind": "sound", "source": "size-up chime", "output": "sound/silent_katamari/ouak/scaleup.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "sh2_containers", "game": "sh2", "kind": "container_check", "source": "header of every .utoc in SHProto/Content/Paks: magic, version, EIoContainerFlags (byte 80, Encrypted = 0x02), compression method names; .pak index encryption flag", "output": "data_static/silent_katamari/status.json (sh2 section)", "used_by": "content", "required": true, "unverified": ["source"] },
+    { "id": "sh2_james_mesh", "game": "sh2", "kind": "skeletal_mesh", "source": "SkeletalMesh under /Game/Game/Characters/Humans/JamesSunderland/ (James's body; the most detailed LOD within the characters sheet budget), its skeleton and the base colour textures of its materials", "output": "data_static/silent_katamari/james.json (+ materials/silent_katamari/sh2/james/<tex>.png)", "used_by": "james", "required": true, "unverified": ["source"] },
+    { "id": "sh2_james_anims", "game": "sh2", "kind": "anim_set", "source": "AnimSequences under /Game/Game/Characters/Humans/JamesSunderland/Animation/ matched by the anims sheet, sampled at 30 fps", "output": "data_static/silent_katamari/james_anims.json", "used_by": "james", "required": true, "unverified": ["source"] },
+    { "id": "sh2_ground_tex", "game": "sh2", "kind": "texture", "source": "a street asphalt or ground base colour texture of the town (Texture2D under /Game/Game/Environments/, name containing 'asphalt' or 'road')", "output": "materials/silent_katamari/sh2/ground.png", "used_by": "atmosphere", "required": false, "unverified": ["source"] },
+    { "id": "sh2_snd_radio", "game": "sh2", "kind": "sound", "source": "the pocket radio's static (Wwise event or media whose name contains 'radio' and 'static' or 'noise')", "output": "sound/silent_katamari/sh2/radio.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "sh2_snd_ambience", "game": "sh2", "kind": "sound", "source": "an outdoor fog ambience bed of the town (Wwise media whose name contains 'amb')", "output": "sound/silent_katamari/sh2/ambience.wav", "used_by": "sounds", "required": false, "unverified": ["source"] },
+    { "id": "sh2_snd_music", "game": "sh2", "kind": "sound", "source": "an exploration music track of the town (Wwise music media whose name contains 'mus' or 'bgm')", "output": "sound/silent_katamari/sh2/music.wav", "used_by": "sounds", "required": false, "unverified": ["source"] }
+  ]
+}

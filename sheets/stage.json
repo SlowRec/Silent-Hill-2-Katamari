@@ -1,0 +1,35 @@
+{
+  "sheet": "stage",
+  "about": "Stages. v0.1 has one: a clearing in the fog on gm_flatgrass, with Katamari objects placed in rings by size.",
+  "columns": {
+    "id": { "type": "id", "about": "key" },
+    "map": { "type": "string", "about": "Garry's Mod map it runs on (ships with Garry's Mod)" },
+    "center": { "type": "list:number", "about": "stage centre in Source units (x, y, z of the floor)" },
+    "start_diameter_cm": { "type": "number", "about": "katamari size at the start" },
+    "goal_cm": { "type": "number", "about": "size to reach" },
+    "time_s": { "type": "int", "about": "time limit" },
+    "tiers": { "type": "list:ref:tiers", "about": "object rings placed for this stage" },
+    "ground": { "type": "ref:extract", "about": "texture of the ground plane" },
+    "music": { "type": "ref:sounds", "about": "music while rolling" },
+    "ambience": { "type": "ref:sounds", "about": "ambient bed under the music" },
+    "radio": { "type": "ref:sounds", "about": "radio static that rises as time runs out" },
+    "ground_size_m": { "type": "number", "about": "side of the square ground plane" }
+  },
+  "rows": [
+    {
+      "id": "clearing",
+      "map": "gm_flatgrass",
+      "center": [0, 0, -12288],
+      "start_diameter_cm": 30,
+      "goal_cm": 200,
+      "time_s": 300,
+      "tiers": ["t1_tiny", "t2_small", "t3_medium", "t4_large", "t5_huge"],
+      "ground": "sh2_ground_tex",
+      "music": "sh2.music",
+      "ambience": "sh2.ambience",
+      "radio": "sh2.radio",
+      "ground_size_m": 200,
+      "unverified": ["center", "goal_cm", "time_s", "ground_size_m"]
+    }
+  ]
+}

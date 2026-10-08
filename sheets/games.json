@@ -1,0 +1,61 @@
+{
+  "sheet": "games",
+  "about": "The games this mashup joins: the host Melty installs into and starts, and the two games whose real content is read from the player's own installed copy.",
+  "columns": {
+    "id": { "type": "id", "about": "short key used everywhere else" },
+    "name": { "type": "string", "about": "display name" },
+    "melty_slug": { "type": "string", "about": "slug from Melty search_games" },
+    "role": { "type": "enum:primary|secondary", "about": "primary = Melty installs into it and starts it; secondary = the mod finds it itself" },
+    "steam_appid": { "type": "string", "about": "Steam app id (appmanifest_<id>.acf)" },
+    "installdir": { "type": "string", "about": "expected folder under steamapps/common (the acf's installdir wins)" },
+    "probe_file": { "type": "string", "about": "relative path that proves this folder is the game" },
+    "engine": { "type": "string", "about": "engine and scripting" },
+    "brings": { "type": "text", "about": "what this game really brings into the mashup" },
+    "missing_text": { "type": "ref:strings", "about": "message shown in game when it is not installed" },
+    "never": { "type": "text", "about": "what the mashup must never do to this game" }
+  },
+  "rows": [
+    {
+      "id": "gmod",
+      "name": "Garry's Mod",
+      "melty_slug": "garrys-mod",
+      "role": "primary",
+      "steam_appid": "4000",
+      "installdir": "GarrysMod",
+      "probe_file": "garrysmod/gameinfo.txt",
+      "engine": "Source (Lua), no loader needed",
+      "brings": "The engine underneath (physics, rendering, input, sound), kept out of sight by the silentkatamari gamemode.",
+      "missing_text": "-",
+      "never": "Ship files another mashup also ships (conflicts); overwrite base files (gmod.exe, garrysmod_*.vpk).",
+      "unverified": ["probe_file"]
+    },
+    {
+      "id": "ouak",
+      "name": "Once Upon A KATAMARI",
+      "melty_slug": "custom-once-upon-a-katamari",
+      "role": "secondary",
+      "steam_appid": "1880620",
+      "installdir": "OnceUponaKATAMARI",
+      "probe_file": "OnceUponaKATAMARI_Data/StreamingAssets/aa",
+      "engine": "Unity 6, IL2CPP, URP, Addressables bundles, CRIWARE audio",
+      "brings": "The objects you roll up (real meshes and textures), Katamari's rules (catch size, growth rate from its object table), its roll-up sounds and its size display.",
+      "missing_text": "missing_ouak",
+      "never": "Launch it, inject into it, touch its online KatamariBall mode or saves, or ship any of its files.",
+      "unverified": ["probe_file", "engine"]
+    },
+    {
+      "id": "sh2",
+      "name": "SILENT HILL 2",
+      "melty_slug": "custom-silent-hill-2",
+      "role": "secondary",
+      "steam_appid": "2124490",
+      "installdir": "SILENT HILL 2",
+      "probe_file": "SHProto/Content/Paks/SHProto-Windows.utoc",
+      "engine": "Unreal Engine 5.1, IoStore containers, Wwise audio",
+      "brings": "James Sunderland himself (his model, textures and animations) pushing the katamari, and the town's atmosphere: radio static, ambience and music.",
+      "missing_text": "missing_sh2",
+      "never": "Launch it, patch or wrap its exe (it has a Steam DRM wrapper), decrypt it with a key from anywhere, or ship any of its files.",
+      "unverified": ["probe_file"]
+    }
+  ]
+}

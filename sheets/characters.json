@@ -1,0 +1,29 @@
+{
+  "sheet": "characters",
+  "about": "Silent Hill 2 characters who push the katamari. v0.1: James Sunderland.",
+  "columns": {
+    "id": { "type": "id", "about": "key" },
+    "name": { "type": "string", "about": "display name" },
+    "game": { "type": "ref:games", "about": "game the character is read from" },
+    "mesh": { "type": "ref:extract", "about": "extract row of the skeletal mesh" },
+    "anims": { "type": "ref:extract", "about": "extract row of the animation set" },
+    "max_triangles": { "type": "int", "about": "the converter takes the most detailed LOD at or under this (CPU skinning budget)" },
+    "max_bones": { "type": "int", "about": "bones kept after dropping face and finger bones that carry no weight in that LOD" },
+    "arm_pose": { "type": "text", "about": "procedural change on top of his own clips so he pushes with both hands" },
+    "clips": { "type": "list:ref:anims", "about": "which of his animations he uses" }
+  },
+  "rows": [
+    {
+      "id": "james",
+      "name": "James Sunderland",
+      "game": "sh2",
+      "mesh": "sh2_james_mesh",
+      "anims": "sh2_james_anims",
+      "max_triangles": 16000,
+      "max_bones": 90,
+      "arm_pose": "upper arms raised forward ~70 degrees and forearms bent ~25 degrees, blended over his walk/run clips, palms on the ball",
+      "clips": ["idle", "walk", "run", "walk_back", "strafe_left", "strafe_right"],
+      "unverified": ["max_triangles", "max_bones", "arm_pose"]
+    }
+  ]
+}
