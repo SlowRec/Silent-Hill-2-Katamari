@@ -16,15 +16,16 @@ public static class Games
     public static GameRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }
 
-/// <summary>Everything the converter reads from the player's own games and where it writes it, under garrysmod/addons/silent_katamari_content/ on that PC only. Nothing here is ever shipped. 'source' names what the converter looks for; patterns are confirmed by the probe on a real install.</summary>
+/// <summary>Everything the converter reads from the player's own games and where it writes it, under garrysmod/addons/silent_katamari_content/ on that PC only. Nothing here is ever shipped. 'source' names what the converter looks for; patterns are confirmed by the probe on a real install. Exact file formats: docs/CONTRACT.md.</summary>
 public sealed record ExtractRow(string Id, string Game, string Kind, string Source, string Output, string UsedBy, bool Required);
 
 public static class Extract
 {
     public static readonly ExtractRow status = new("status", "gmod", "status", "result of every other row, converter version, each game's folder and Steam buildid", "data_static/silent_katamari/status.json", "content", true);
     public static readonly ExtractRow ouak_rules = new("ouak_rules", "ouak", "rule_table", "MonoInfo entries (catch size, bounding box, volume rate) in the object table ScriptableObjects", "data_static/silent_katamari/rules.json", "growth", true);
-    public static readonly ExtractRow ouak_objects = new("ouak_objects", "ouak", "object_set", "for each tier: objects from the object table whose size fits, their prefab's MeshFilter meshes and main textures", "data_static/silent_katamari/objects.json (+ meshes/<id>.json, materials/silent_katamari/ouak/<tex>.png)", "stage", true);
-    public static readonly ExtractRow ouak_hud = new("ouak_hud", "ouak", "sprite_set", "the in-game size display prefab: its sprites, colours and layout", "data_static/silent_katamari/hud.json (+ materials/silent_katamari/hud/<sprite>.png)", "hud", false);
+    public static readonly ExtractRow ouak_objects = new("ouak_objects", "ouak", "object_set", "for each tier: objects from the object table whose size fits, their prefab's MeshFilter meshes and main textures", "data_static/silent_katamari/objects.json", "stage", true);
+    public static readonly ExtractRow ouak_core = new("ouak_core", "ouak", "object_set", "the katamari core mesh and texture the Prince rolls (prefab whose name contains 'core' or 'katamari' with a MeshFilter)", "data_static/silent_katamari/core.json", "ball", false);
+    public static readonly ExtractRow ouak_hud = new("ouak_hud", "ouak", "sprite_set", "the in-game size display prefab: its sprites, colours and layout", "data_static/silent_katamari/hud.json", "hud", false);
     public static readonly ExtractRow ouak_font = new("ouak_font", "ouak", "font", "the Font asset used by the size display text", "resource/fonts/silent_katamari.ttf", "hud", false);
     public static readonly ExtractRow ouak_snd_rollup_s = new("ouak_snd_rollup_s", "ouak", "sound", "roll-up sound for small objects (CRI cue / AudioClip name containing 'maki' and the smallest size letter)", "sound/silent_katamari/ouak/rollup_s.wav", "sounds", false);
     public static readonly ExtractRow ouak_snd_rollup_m = new("ouak_snd_rollup_m", "ouak", "sound", "roll-up sound for middle-sized objects", "sound/silent_katamari/ouak/rollup_m.wav", "sounds", false);
@@ -33,27 +34,28 @@ public static class Extract
     public static readonly ExtractRow ouak_snd_dash = new("ouak_snd_dash", "ouak", "sound", "dash sound", "sound/silent_katamari/ouak/dash.wav", "sounds", false);
     public static readonly ExtractRow ouak_snd_scaleup = new("ouak_snd_scaleup", "ouak", "sound", "size-up chime", "sound/silent_katamari/ouak/scaleup.wav", "sounds", false);
     public static readonly ExtractRow sh2_containers = new("sh2_containers", "sh2", "container_check", "header of every .utoc in SHProto/Content/Paks: magic, version, EIoContainerFlags (byte 80, Encrypted = 0x02), compression method names; .pak index encryption flag", "data_static/silent_katamari/status.json (sh2 section)", "content", true);
-    public static readonly ExtractRow sh2_james_mesh = new("sh2_james_mesh", "sh2", "skeletal_mesh", "SkeletalMesh under /Game/Game/Characters/Humans/JamesSunderland/ (James's body; the most detailed LOD within the characters sheet budget), its skeleton and the base colour textures of its materials", "data_static/silent_katamari/james.json (+ materials/silent_katamari/sh2/james/<tex>.png)", "james", true);
-    public static readonly ExtractRow sh2_james_anims = new("sh2_james_anims", "sh2", "anim_set", "AnimSequences under /Game/Game/Characters/Humans/JamesSunderland/Animation/ matched by the anims sheet, sampled at 30 fps", "data_static/silent_katamari/james_anims.json", "james", true);
+    public static readonly ExtractRow sh2_james_mesh = new("sh2_james_mesh", "sh2", "skeletal_mesh", "SkeletalMesh under /Game/Game/Characters/Humans/JamesSunderland/ (James's body; the most detailed LOD within the characters sheet budget), its skeleton and the base colour textures of its materials; compiled with the player's own GarrysMod/bin/studiomdl.exe", "models/silent_katamari/james.mdl", "james", true);
+    public static readonly ExtractRow sh2_james_anims = new("sh2_james_anims", "sh2", "anim_set", "AnimSequences under /Game/Game/Characters/Humans/JamesSunderland/Animation/ matched by the anims sheet, sampled at 30 fps", "data_static/silent_katamari/james.json", "james", true);
     public static readonly ExtractRow sh2_ground_tex = new("sh2_ground_tex", "sh2", "texture", "a street asphalt or ground base colour texture of the town (Texture2D under /Game/Game/Environments/, name containing 'asphalt' or 'road')", "materials/silent_katamari/sh2/ground.png", "atmosphere", false);
     public static readonly ExtractRow sh2_snd_radio = new("sh2_snd_radio", "sh2", "sound", "the pocket radio's static (Wwise event or media whose name contains 'radio' and 'static' or 'noise')", "sound/silent_katamari/sh2/radio.wav", "sounds", false);
     public static readonly ExtractRow sh2_snd_ambience = new("sh2_snd_ambience", "sh2", "sound", "an outdoor fog ambience bed of the town (Wwise media whose name contains 'amb')", "sound/silent_katamari/sh2/ambience.wav", "sounds", false);
     public static readonly ExtractRow sh2_snd_music = new("sh2_snd_music", "sh2", "sound", "an exploration music track of the town (Wwise music media whose name contains 'mus' or 'bgm')", "sound/silent_katamari/sh2/music.wav", "sounds", false);
-    public static readonly IReadOnlyList<ExtractRow> All = new[] { status, ouak_rules, ouak_objects, ouak_hud, ouak_font, ouak_snd_rollup_s, ouak_snd_rollup_m, ouak_snd_rollup_l, ouak_snd_hit, ouak_snd_dash, ouak_snd_scaleup, sh2_containers, sh2_james_mesh, sh2_james_anims, sh2_ground_tex, sh2_snd_radio, sh2_snd_ambience, sh2_snd_music };
+    public static readonly IReadOnlyList<ExtractRow> All = new[] { status, ouak_rules, ouak_objects, ouak_core, ouak_hud, ouak_font, ouak_snd_rollup_s, ouak_snd_rollup_m, ouak_snd_rollup_l, ouak_snd_hit, ouak_snd_dash, ouak_snd_scaleup, sh2_containers, sh2_james_mesh, sh2_james_anims, sh2_ground_tex, sh2_snd_radio, sh2_snd_ambience, sh2_snd_music };
     public static ExtractRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }
 
-/// <summary>Rings of Katamari objects around the stage centre. The converter picks real objects from the player's Once Upon A KATAMARI whose own size falls in each tier; the stage places them. Sizes are the object's longest side in the game's own object table.</summary>
-public sealed record TierRow(string Id, double SizeMinCm, double SizeMaxCm, int Kinds, int Count, double RingMinM, double RingMaxM, string Prefer);
+/// <summary>Rings of Katamari objects around the stage centre. The converter picks real objects from the player's Once Upon A KATAMARI whose own pickup size (the katamari size needed to roll it up) falls in each tier; the stage places them. Tier bounds follow the pickup sizes of Make a Star 1 (REROLL object table): about 40% of placements in the smallest tier, post-goal bait at 10-25 cm, unpickable walls from 35 cm.</summary>
+public sealed record TierRow(string Id, double PickupMinCm, double PickupMaxCm, int Kinds, int Count, double RingMinM, double RingMaxM, bool Catchable, string Prefer);
 
 public static class Tiers
 {
-    public static readonly TierRow t1_tiny = new("t1_tiny", 8.0, 20.0, 12, 70, 0.5, 8.0, "objects from the foggy yokai and Edo stages first, then any");
-    public static readonly TierRow t2_small = new("t2_small", 20.0, 45.0, 10, 45, 4.0, 14.0, "objects from the foggy yokai and Edo stages first, then any");
-    public static readonly TierRow t3_medium = new("t3_medium", 45.0, 100.0, 8, 28, 10.0, 22.0, "objects from the foggy yokai and Edo stages first, then any");
-    public static readonly TierRow t4_large = new("t4_large", 100.0, 220.0, 6, 16, 18.0, 32.0, "objects from the foggy yokai and Edo stages first, then any");
-    public static readonly TierRow t5_huge = new("t5_huge", 220.0, 500.0, 4, 6, 28.0, 42.0, "the biggest yokai, statues and buildings-sized things");
-    public static readonly IReadOnlyList<TierRow> All = new[] { t1_tiny, t2_small, t3_medium, t4_large, t5_huge };
+    public static readonly TierRow t1_smallest = new("t1_smallest", 1.5, 4.5, 10, 120, 0.05, 0.7, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t2_tiny = new("t2_tiny", 4.5, 7.6, 8, 70, 0.2, 1.1, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t3_small = new("t3_small", 7.6, 10.0, 6, 40, 0.5, 1.7, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t4_medium = new("t4_medium", 10.0, 14.5, 6, 30, 0.9, 2.3, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t5_big = new("t5_big", 14.5, 25.0, 4, 14, 1.4, 2.8, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t6_walls = new("t6_walls", 45.0, 120.0, 3, 8, 1.0, 3.0, false, "big furniture-like things that make walls and corners");
+    public static readonly IReadOnlyList<TierRow> All = new[] { t1_smallest, t2_tiny, t3_small, t4_medium, t5_big, t6_walls };
     public static TierRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }
 
@@ -82,12 +84,12 @@ public static class Characters
     public static CharacterRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }
 
-/// <summary>Stages. v0.1 has one: a clearing in the fog on gm_flatgrass, with Katamari objects placed in rings by size.</summary>
-public sealed record StageRow(string Id, string Map, IReadOnlyList<double> Center, double StartDiameterCm, double GoalCm, int TimeS, IReadOnlyList<string> Tiers, string Ground, string Music, string Ambience, string Radio, double GroundSizeM);
+/// <summary>Stages. v0.1 has one: a clearing in the fog, at Katamari scale (James is a few cm tall), with real Katamari objects placed in rings by the size you need to roll them up. Numbers follow Katamari's first stages: Make a Star 1 (REROLL mission data: 5 cm start, 10 cm goal, 30 cm cap, ratings 10/12/14/15 cm) and Once Upon A KATAMARI's 'As Large As Possible 1' (15 cm in 4 minutes).</summary>
+public sealed record StageRow(string Id, string Map, IReadOnlyList<double> Center, double StartDiameterCm, double GoalCm, IReadOnlyList<double> RatingCm, double MaxCm, int TimeS, IReadOnlyList<string> Tiers, string Ground, double GroundSizeM, string Music, string Ambience, string Radio);
 
 public static class Stage
 {
-    public static readonly StageRow clearing = new("clearing", "gm_flatgrass", new double[] { 0.0, 0.0, -12288.0 }, 30.0, 200.0, 300, new string[] { "t1_tiny", "t2_small", "t3_medium", "t4_large", "t5_huge" }, "sh2_ground_tex", "sh2.music", "sh2.ambience", "sh2.radio", 200.0);
+    public static readonly StageRow clearing = new("clearing", "gm_flatgrass", new double[] { 0.0, 0.0, -12288.0 }, 5.0, 15.0, new double[] { 15.0, 18.0, 21.0, 24.0 }, 45.0, 240, new string[] { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }, "sh2_ground_tex", 12.0, "sh2.music", "sh2.ambience", "sh2.radio");
     public static readonly IReadOnlyList<StageRow> All = new[] { clearing };
     public static StageRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }

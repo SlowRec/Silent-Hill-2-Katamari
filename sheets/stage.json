@@ -1,35 +1,101 @@
 {
   "sheet": "stage",
-  "about": "Stages. v0.1 has one: a clearing in the fog on gm_flatgrass, with Katamari objects placed in rings by size.",
+  "about": "Stages. v0.1 has one: a clearing in the fog, at Katamari scale (James is a few cm tall), with real Katamari objects placed in rings by the size you need to roll them up. Numbers follow Katamari's first stages: Make a Star 1 (REROLL mission data: 5 cm start, 10 cm goal, 30 cm cap, ratings 10/12/14/15 cm) and Once Upon A KATAMARI's 'As Large As Possible 1' (15 cm in 4 minutes).",
   "columns": {
-    "id": { "type": "id", "about": "key" },
-    "map": { "type": "string", "about": "Garry's Mod map it runs on (ships with Garry's Mod)" },
-    "center": { "type": "list:number", "about": "stage centre in Source units (x, y, z of the floor)" },
-    "start_diameter_cm": { "type": "number", "about": "katamari size at the start" },
-    "goal_cm": { "type": "number", "about": "size to reach" },
-    "time_s": { "type": "int", "about": "time limit" },
-    "tiers": { "type": "list:ref:tiers", "about": "object rings placed for this stage" },
-    "ground": { "type": "ref:extract", "about": "texture of the ground plane" },
-    "music": { "type": "ref:sounds", "about": "music while rolling" },
-    "ambience": { "type": "ref:sounds", "about": "ambient bed under the music" },
-    "radio": { "type": "ref:sounds", "about": "radio static that rises as time runs out" },
-    "ground_size_m": { "type": "number", "about": "side of the square ground plane" }
+    "id": {
+      "type": "id",
+      "about": "key"
+    },
+    "map": {
+      "type": "string",
+      "about": "Garry's Mod map it runs on (ships with Garry's Mod)"
+    },
+    "center": {
+      "type": "list:number",
+      "about": "stage centre in Source units (x, y, z of the floor)"
+    },
+    "start_diameter_cm": {
+      "type": "number",
+      "about": "katamari size at the start"
+    },
+    "goal_cm": {
+      "type": "number",
+      "about": "size to reach"
+    },
+    "rating_cm": {
+      "type": "list:number",
+      "about": "result bands: goal, good, great, best"
+    },
+    "max_cm": {
+      "type": "number",
+      "about": "growth after the goal follows rules.after_goal_curve and stops here"
+    },
+    "time_s": {
+      "type": "int",
+      "about": "time limit"
+    },
+    "tiers": {
+      "type": "list:ref:tiers",
+      "about": "object rings placed for this stage"
+    },
+    "ground": {
+      "type": "ref:extract",
+      "about": "texture of the ground plane"
+    },
+    "ground_size_m": {
+      "type": "number",
+      "about": "side of the square ground plane"
+    },
+    "music": {
+      "type": "ref:sounds",
+      "about": "music while rolling"
+    },
+    "ambience": {
+      "type": "ref:sounds",
+      "about": "ambient bed under the music"
+    },
+    "radio": {
+      "type": "ref:sounds",
+      "about": "radio static that rises as time runs out"
+    }
   },
   "rows": [
     {
       "id": "clearing",
       "map": "gm_flatgrass",
-      "center": [0, 0, -12288],
-      "start_diameter_cm": 30,
-      "goal_cm": 200,
-      "time_s": 300,
-      "tiers": ["t1_tiny", "t2_small", "t3_medium", "t4_large", "t5_huge"],
+      "center": [
+        0,
+        0,
+        -12288
+      ],
+      "start_diameter_cm": 5,
+      "goal_cm": 15,
+      "rating_cm": [
+        15,
+        18,
+        21,
+        24
+      ],
+      "max_cm": 45,
+      "time_s": 240,
+      "tiers": [
+        "t1_smallest",
+        "t2_tiny",
+        "t3_small",
+        "t4_medium",
+        "t5_big",
+        "t6_walls"
+      ],
       "ground": "sh2_ground_tex",
+      "ground_size_m": 12,
       "music": "sh2.music",
       "ambience": "sh2.ambience",
       "radio": "sh2.radio",
-      "ground_size_m": 200,
-      "unverified": ["center", "goal_cm", "time_s", "ground_size_m"]
+      "unverified": [
+        "center",
+        "rating_cm",
+        "max_cm"
+      ]
     }
   ]
 }

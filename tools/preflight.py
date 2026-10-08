@@ -86,14 +86,14 @@ def main():
             errors.append(f"strings[{row['id']}]: placeholders differ between en {sorted(en)} and es {sorted(es)}")
     tiers = sheets.get("tiers", {}).get("rows", [])
     for t in tiers:
-        if t["size_min_cm"] >= t["size_max_cm"]:
-            errors.append(f"tiers[{t['id']}]: size_min_cm must be below size_max_cm")
+        if t["pickup_min_cm"] >= t["pickup_max_cm"]:
+            errors.append(f"tiers[{t['id']}]: pickup_min_cm must be below pickup_max_cm")
         if t["ring_min_m"] >= t["ring_max_m"]:
             errors.append(f"tiers[{t['id']}]: ring_min_m must be below ring_max_m")
         if t["kinds"] > t["count"]:
             errors.append(f"tiers[{t['id']}]: kinds is more than count")
     for a, b in zip(tiers, tiers[1:]):
-        if a["size_max_cm"] > b["size_min_cm"]:
+        if a["pickup_max_cm"] > b["pickup_min_cm"]:
             errors.append(f"tiers[{a['id']}] and [{b['id']}]: size ranges overlap")
     rules = {r["id"]: r for r in sheets.get("rules", {}).get("rows", [])}
     for st in sheets.get("stage", {}).get("rows", []):

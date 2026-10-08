@@ -1,21 +1,152 @@
 {
   "sheet": "tiers",
-  "about": "Rings of Katamari objects around the stage centre. The converter picks real objects from the player's Once Upon A KATAMARI whose own size falls in each tier; the stage places them. Sizes are the object's longest side in the game's own object table.",
+  "about": "Rings of Katamari objects around the stage centre. The converter picks real objects from the player's Once Upon A KATAMARI whose own pickup size (the katamari size needed to roll it up) falls in each tier; the stage places them. Tier bounds follow the pickup sizes of Make a Star 1 (REROLL object table): about 40% of placements in the smallest tier, post-goal bait at 10-25 cm, unpickable walls from 35 cm.",
   "columns": {
-    "id": { "type": "id", "about": "key" },
-    "size_min_cm": { "type": "number", "about": "smallest object in this ring" },
-    "size_max_cm": { "type": "number", "about": "largest object in this ring" },
-    "kinds": { "type": "int", "about": "how many different objects the converter picks for this ring" },
-    "count": { "type": "int", "about": "how many objects are placed" },
-    "ring_min_m": { "type": "number", "about": "inner radius of the ring" },
-    "ring_max_m": { "type": "number", "about": "outer radius of the ring" },
-    "prefer": { "type": "text", "about": "which objects the converter prefers when there are more than it needs" }
+    "id": {
+      "type": "id",
+      "about": "key"
+    },
+    "pickup_min_cm": {
+      "type": "number",
+      "about": "smallest pickup size in this ring"
+    },
+    "pickup_max_cm": {
+      "type": "number",
+      "about": "largest pickup size in this ring"
+    },
+    "kinds": {
+      "type": "int",
+      "about": "how many different objects the converter picks for this ring"
+    },
+    "count": {
+      "type": "int",
+      "about": "how many objects are placed"
+    },
+    "ring_min_m": {
+      "type": "number",
+      "about": "inner radius of the ring"
+    },
+    "ring_max_m": {
+      "type": "number",
+      "about": "outer radius of the ring"
+    },
+    "catchable": {
+      "type": "bool",
+      "about": "false = obstacles bigger than the stage cap allows (they block and knock)"
+    },
+    "prefer": {
+      "type": "text",
+      "about": "which objects the converter prefers when there are more than it needs"
+    }
   },
   "rows": [
-    { "id": "t1_tiny", "size_min_cm": 8, "size_max_cm": 20, "kinds": 12, "count": 70, "ring_min_m": 0.5, "ring_max_m": 8, "prefer": "objects from the foggy yokai and Edo stages first, then any", "unverified": ["size_min_cm", "size_max_cm", "count", "ring_max_m", "prefer"] },
-    { "id": "t2_small", "size_min_cm": 20, "size_max_cm": 45, "kinds": 10, "count": 45, "ring_min_m": 4, "ring_max_m": 14, "prefer": "objects from the foggy yokai and Edo stages first, then any", "unverified": ["size_min_cm", "size_max_cm", "count", "ring_min_m", "ring_max_m", "prefer"] },
-    { "id": "t3_medium", "size_min_cm": 45, "size_max_cm": 100, "kinds": 8, "count": 28, "ring_min_m": 10, "ring_max_m": 22, "prefer": "objects from the foggy yokai and Edo stages first, then any", "unverified": ["size_min_cm", "size_max_cm", "count", "ring_min_m", "ring_max_m", "prefer"] },
-    { "id": "t4_large", "size_min_cm": 100, "size_max_cm": 220, "kinds": 6, "count": 16, "ring_min_m": 18, "ring_max_m": 32, "prefer": "objects from the foggy yokai and Edo stages first, then any", "unverified": ["size_min_cm", "size_max_cm", "count", "ring_min_m", "ring_max_m", "prefer"] },
-    { "id": "t5_huge", "size_min_cm": 220, "size_max_cm": 500, "kinds": 4, "count": 6, "ring_min_m": 28, "ring_max_m": 42, "prefer": "the biggest yokai, statues and buildings-sized things", "unverified": ["size_min_cm", "size_max_cm", "count", "ring_min_m", "ring_max_m", "prefer"] }
+    {
+      "id": "t1_smallest",
+      "pickup_min_cm": 1.5,
+      "pickup_max_cm": 4.5,
+      "kinds": 10,
+      "count": 120,
+      "ring_min_m": 0.05,
+      "ring_max_m": 0.7,
+      "catchable": true,
+      "prefer": "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any",
+      "unverified": [
+        "kinds",
+        "count",
+        "ring_min_m",
+        "ring_max_m",
+        "prefer"
+      ]
+    },
+    {
+      "id": "t2_tiny",
+      "pickup_min_cm": 4.5,
+      "pickup_max_cm": 7.6,
+      "kinds": 8,
+      "count": 70,
+      "ring_min_m": 0.2,
+      "ring_max_m": 1.1,
+      "catchable": true,
+      "prefer": "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any",
+      "unverified": [
+        "kinds",
+        "count",
+        "ring_min_m",
+        "ring_max_m",
+        "prefer"
+      ]
+    },
+    {
+      "id": "t3_small",
+      "pickup_min_cm": 7.6,
+      "pickup_max_cm": 10.0,
+      "kinds": 6,
+      "count": 40,
+      "ring_min_m": 0.5,
+      "ring_max_m": 1.7,
+      "catchable": true,
+      "prefer": "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any",
+      "unverified": [
+        "kinds",
+        "count",
+        "ring_min_m",
+        "ring_max_m",
+        "prefer"
+      ]
+    },
+    {
+      "id": "t4_medium",
+      "pickup_min_cm": 10.0,
+      "pickup_max_cm": 14.5,
+      "kinds": 6,
+      "count": 30,
+      "ring_min_m": 0.9,
+      "ring_max_m": 2.3,
+      "catchable": true,
+      "prefer": "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any",
+      "unverified": [
+        "kinds",
+        "count",
+        "ring_min_m",
+        "ring_max_m",
+        "prefer"
+      ]
+    },
+    {
+      "id": "t5_big",
+      "pickup_min_cm": 14.5,
+      "pickup_max_cm": 25.0,
+      "kinds": 4,
+      "count": 14,
+      "ring_min_m": 1.4,
+      "ring_max_m": 2.8,
+      "catchable": true,
+      "prefer": "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any",
+      "unverified": [
+        "kinds",
+        "count",
+        "ring_min_m",
+        "ring_max_m",
+        "prefer"
+      ]
+    },
+    {
+      "id": "t6_walls",
+      "pickup_min_cm": 45.0,
+      "pickup_max_cm": 120.0,
+      "kinds": 3,
+      "count": 8,
+      "ring_min_m": 1.0,
+      "ring_max_m": 3.0,
+      "catchable": false,
+      "prefer": "big furniture-like things that make walls and corners",
+      "unverified": [
+        "kinds",
+        "count",
+        "ring_min_m",
+        "ring_max_m",
+        "prefer"
+      ]
+    }
   ]
 }

@@ -1,0 +1,3 @@
+Build:  dotnet build converter/SilentKatamari.Converter
+Test:   dotnet test converter/SilentKatamari.Converter.Tests
+Ship:   dotnet publish converter/SilentKatamari.Converter -c Release -r win-x64 -o converter/publish

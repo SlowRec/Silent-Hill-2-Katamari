@@ -2,42 +2,388 @@
   "sheet": "rules",
   "about": "Numbers the game runs on. source: game = read from the player's Once Upon A KATAMARI by the converter (the value here is the check value used only if reading failed, never a stand-in shown as Katamari's); research = from published Katamari sources; valve = Source engine fact; tuned = our tuning, checked in the real game.",
   "columns": {
-    "id": { "type": "id", "about": "key" },
-    "value": { "type": "any", "about": "value" },
-    "unit": { "type": "string", "about": "unit" },
-    "source": { "type": "enum:game|research|valve|tuned", "about": "where the number comes from" },
-    "used_by": { "type": "ref:systems", "about": "system that reads it" },
-    "note": { "type": "text", "about": "why this value" }
+    "id": {
+      "type": "id",
+      "about": "key"
+    },
+    "value": {
+      "type": "any",
+      "about": "value"
+    },
+    "unit": {
+      "type": "string",
+      "about": "unit"
+    },
+    "source": {
+      "type": "enum:game|research|valve|tuned",
+      "about": "where the number comes from"
+    },
+    "used_by": {
+      "type": "ref:systems",
+      "about": "system that reads it"
+    },
+    "note": {
+      "type": "text",
+      "about": "why this value"
+    }
   },
   "rows": [
-    { "id": "cm_per_unit", "value": 1.905, "unit": "cm/HU", "source": "valve", "used_by": "katamath", "note": "Source world scale: 1 unit = 0.75 inch." },
-    { "id": "catch_ratio", "value": 1.42, "unit": "diameter / longest side", "source": "game", "used_by": "katamath", "note": "Median of MonoInfo catch size over object longest side, read from the player's Katamari. 1.42 is what We Love Katamari REROLL+ gives (Katamari Sandbox); re-read from Once Upon A KATAMARI.", "unverified": ["value"] },
-    { "id": "volume_rate", "value": 1.0, "unit": "x", "source": "game", "used_by": "katamath", "note": "Median MonoInfo volume rate: share of a caught object's volume added to the katamari.", "unverified": ["value"] },
-    { "id": "growth_mult", "value": 2.0, "unit": "x", "source": "tuned", "used_by": "katamath", "note": "Multiplier on growth: our stage holds fewer objects than a real Katamari level.", "unverified": ["value"] },
-    { "id": "start_diameter_cm", "value": 30, "unit": "cm", "source": "tuned", "used_by": "katamath", "note": "Smaller spheres are unstable in Source physics (under ~8 units).", "unverified": ["value"] },
-    { "id": "milestones_cm", "value": [30, 40, 50, 75, 100, 150, 200, 300, 500, 1000], "unit": "cm", "source": "tuned", "used_by": "hud", "note": "Next-size marks; reaching one plays the size-up sound.", "unverified": ["value"] },
-    { "id": "push_accel", "value": 900, "unit": "HU/s2", "source": "tuned", "used_by": "control", "note": "From Katamari Sandbox." },
-    { "id": "speed_diameters", "value": 4.0, "unit": "diameters/s", "source": "tuned", "used_by": "control", "note": "Top speed scales with size (Katamari Sandbox)." },
-    { "id": "min_speed", "value": 180, "unit": "HU/s", "source": "tuned", "used_by": "control", "note": "Top speed floor while small (Katamari Sandbox)." },
-    { "id": "dash_mult", "value": 1.8, "unit": "x", "source": "tuned", "used_by": "control", "note": "Shift (Katamari Sandbox)." },
-    { "id": "brake", "value": 3.0, "unit": "1/s", "source": "tuned", "used_by": "control", "note": "Slow-down with no keys held (Katamari Sandbox)." },
-    { "id": "cam_dist_diameters", "value": 2.6, "unit": "diameters", "source": "tuned", "used_by": "camera", "note": "Katamari Sandbox." },
-    { "id": "cam_height_diameters", "value": 1.1, "unit": "diameters", "source": "tuned", "used_by": "camera", "note": "Katamari Sandbox." },
-    { "id": "cam_min_dist", "value": 70, "unit": "HU", "source": "tuned", "used_by": "camera", "note": "Katamari Sandbox." },
-    { "id": "cam_smooth", "value": 6, "unit": "1/s", "source": "tuned", "used_by": "camera", "note": "Katamari Sandbox." },
-    { "id": "touch_margin", "value": 2, "unit": "HU", "source": "tuned", "used_by": "pickup", "note": "Katamari Sandbox." },
-    { "id": "attach_depth", "value": 0.3, "unit": "of object size", "source": "tuned", "used_by": "attach", "note": "Katamari Sandbox." },
-    { "id": "bury_hide_ratio", "value": 0.6, "unit": "of radius", "source": "tuned", "used_by": "attach", "note": "Katamari Sandbox." },
-    { "id": "max_attached", "value": 400, "unit": "entities", "source": "tuned", "used_by": "attach", "note": "Katamari Sandbox." },
-    { "id": "james_height_ratio", "value": 1.6, "unit": "of diameter", "source": "tuned", "used_by": "james", "note": "James stands taller than the ball, like the Prince with a small katamari; checked by eye in game.", "unverified": ["value"] },
-    { "id": "james_back_ratio", "value": 0.35, "unit": "of diameter", "source": "tuned", "used_by": "james", "note": "Gap between the ball's surface and James's chest.", "unverified": ["value"] },
-    { "id": "fog_color", "value": [148, 150, 146], "unit": "RGB", "source": "tuned", "used_by": "atmosphere", "note": "Silent Hill daytime fog grey; to be replaced by SH2's own ExponentialHeightFog colour once read.", "unverified": ["value"] },
-    { "id": "fog_start_m", "value": 2, "unit": "m", "source": "tuned", "used_by": "atmosphere", "note": "Fog starts right in front of you.", "unverified": ["value"] },
-    { "id": "fog_end_m", "value": 30, "unit": "m", "source": "tuned", "used_by": "atmosphere", "note": "Must stay far shorter than the distance to gm_flatgrass's walls.", "unverified": ["value"] },
-    { "id": "fog_end_per_diameter", "value": 12, "unit": "diameters", "source": "tuned", "used_by": "atmosphere", "note": "Fog pulls back as the katamari grows, but never past fog_end_max_m.", "unverified": ["value"] },
-    { "id": "fog_end_max_m", "value": 80, "unit": "m", "source": "tuned", "used_by": "atmosphere", "note": "Hard cap: gm_flatgrass's nearest wall is farther than this from the stage.", "unverified": ["value"] },
-    { "id": "radio_start_left_s", "value": 60, "unit": "s", "source": "tuned", "used_by": "atmosphere", "note": "Radio static fades in for the last minute.", "unverified": ["value"] },
-    { "id": "hud_ref_height", "value": 1080, "unit": "px", "source": "tuned", "used_by": "hud", "note": "UI designed at 1920x1080 and scaled." },
-    { "id": "hidden_hud_elements", "value": ["CHudHealth", "CHudBattery", "CHudSuitPower", "CHudAmmo", "CHudSecondaryAmmo", "CHudCrosshair", "CHudWeaponSelection", "CHudWeapon", "CHudDamageIndicator", "CHudPoisonDamageIndicator", "CHudSquadStatus", "CHudZoom", "CHudGeiger", "CHudHintDisplay", "CHudHistoryResource", "CHudTrain", "CHudVehicle", "CHudMessage", "CHudChat", "CHudDeathNotice", "CHudQuickInfo", "CHudLocator", "CHudFlashlight"], "unit": "HUD element names", "source": "valve", "used_by": "hide", "note": "Every default HUD element HUDShouldDraw is asked about.", "unverified": ["value"] }
+    {
+      "id": "cm_per_unit",
+      "value": 0.25,
+      "unit": "cm/HU",
+      "source": "tuned",
+      "used_by": "katamath",
+      "note": "World scale of the stage. The map is never seen, so the stage runs at 4 Source units per cm: a 5 cm katamari is a 20-unit sphere, which Source physics handles well (smaller spheres jitter). Gravity is scaled to match (gravity_cm_s2).",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "catch_ratio",
+      "value": 0.464,
+      "unit": "object sphere-equivalent diameter / katamari diameter",
+      "source": "research",
+      "used_by": "katamath",
+      "note": "Katamari's pickup rule: the katamari needs at least 10x the object's volume (10^(-1/3) = 0.464). Checked against 1466 of 1467 objects of the Katamari Damacy REROLL object table (community datamine, shookietea/reroll-notes). Used only for an object whose own catch size wasn't found in the player's Once Upon A KATAMARI.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "volume_rate",
+      "value": 0.8,
+      "unit": "x",
+      "source": "research",
+      "used_by": "katamath",
+      "note": "Default share of a caught object's volume added to the katamari (1270 of 1718 REROLL objects use 0.8). Each object's own rate from the player's Once Upon A KATAMARI wins when found.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "growth_mult",
+      "value": 1.0,
+      "unit": "x",
+      "source": "tuned",
+      "used_by": "katamath",
+      "note": "Extra multiplier on growth; 1 = the game's own rate.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "milestones_cm",
+      "value": [
+        5,
+        6,
+        7,
+        8,
+        10,
+        12,
+        15,
+        20,
+        25,
+        30
+      ],
+      "unit": "cm",
+      "source": "tuned",
+      "used_by": "hud",
+      "note": "Next-size marks under the size display; reaching one plays the size-up sound.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "push_accel",
+      "value": 12,
+      "unit": "diameters/s2",
+      "source": "tuned",
+      "used_by": "control",
+      "note": "Push acceleration, relative to the katamari size.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "speed_diameters",
+      "value": 4.0,
+      "unit": "diameters/s",
+      "source": "tuned",
+      "used_by": "control",
+      "note": "Top speed scales with size (Katamari Sandbox).",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "min_speed",
+      "value": 40,
+      "unit": "HU/s",
+      "source": "tuned",
+      "used_by": "control",
+      "note": "Top speed floor while very small.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "dash_mult",
+      "value": 1.8,
+      "unit": "x",
+      "source": "tuned",
+      "used_by": "control",
+      "note": "Shift (Katamari Sandbox)."
+    },
+    {
+      "id": "brake",
+      "value": 3.0,
+      "unit": "1/s",
+      "source": "tuned",
+      "used_by": "control",
+      "note": "Slow-down with no keys held (Katamari Sandbox)."
+    },
+    {
+      "id": "cam_dist_diameters",
+      "value": 2.6,
+      "unit": "diameters",
+      "source": "tuned",
+      "used_by": "camera",
+      "note": "Katamari Sandbox."
+    },
+    {
+      "id": "cam_height_diameters",
+      "value": 1.1,
+      "unit": "diameters",
+      "source": "tuned",
+      "used_by": "camera",
+      "note": "Katamari Sandbox."
+    },
+    {
+      "id": "cam_min_dist",
+      "value": 40,
+      "unit": "HU",
+      "source": "tuned",
+      "used_by": "camera",
+      "note": "Closest the camera gets while small.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "cam_smooth",
+      "value": 6,
+      "unit": "1/s",
+      "source": "tuned",
+      "used_by": "camera",
+      "note": "Katamari Sandbox."
+    },
+    {
+      "id": "touch_margin",
+      "value": 0.5,
+      "unit": "HU",
+      "source": "tuned",
+      "used_by": "pickup",
+      "note": "Objects this close to the surface count as touching.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "attach_depth",
+      "value": 0.3,
+      "unit": "of object size",
+      "source": "tuned",
+      "used_by": "attach",
+      "note": "Katamari Sandbox."
+    },
+    {
+      "id": "bury_hide_ratio",
+      "value": 0.6,
+      "unit": "of radius",
+      "source": "tuned",
+      "used_by": "attach",
+      "note": "Katamari Sandbox."
+    },
+    {
+      "id": "max_attached",
+      "value": 400,
+      "unit": "entities",
+      "source": "tuned",
+      "used_by": "attach",
+      "note": "Katamari Sandbox."
+    },
+    {
+      "id": "james_height_ratio",
+      "value": 1.6,
+      "unit": "of diameter",
+      "source": "tuned",
+      "used_by": "james",
+      "note": "James stands taller than the ball, like the Prince with a small katamari; checked by eye in game.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "james_back_ratio",
+      "value": 0.35,
+      "unit": "of diameter",
+      "source": "tuned",
+      "used_by": "james",
+      "note": "Gap between the ball's surface and James's chest.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "fog_color",
+      "value": [
+        148,
+        150,
+        146
+      ],
+      "unit": "RGB",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "Silent Hill daytime fog grey; to be replaced by SH2's own ExponentialHeightFog colour once read.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "fog_end_max_m",
+      "value": 6,
+      "unit": "m",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "Hard cap on sight; gm_flatgrass's walls are much farther at this world scale.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "radio_start_left_s",
+      "value": 60,
+      "unit": "s",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "Radio static fades in for the last minute.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "hud_ref_height",
+      "value": 1080,
+      "unit": "px",
+      "source": "tuned",
+      "used_by": "hud",
+      "note": "UI designed at 1920x1080 and scaled."
+    },
+    {
+      "id": "hidden_hud_elements",
+      "value": [
+        "CHudHealth",
+        "CHudBattery",
+        "CHudSuitPower",
+        "CHudAmmo",
+        "CHudSecondaryAmmo",
+        "CHudCrosshair",
+        "CHudWeaponSelection",
+        "CHudWeapon",
+        "CHudDamageIndicator",
+        "CHudPoisonDamageIndicator",
+        "CHudSquadStatus",
+        "CHudZoom",
+        "CHudGeiger",
+        "CHudHintDisplay",
+        "CHudHistoryResource",
+        "CHudTrain",
+        "CHudVehicle",
+        "CHudMessage",
+        "CHudChat",
+        "CHudDeathNotice",
+        "CHudQuickInfo",
+        "CHudLocator",
+        "CHudFlashlight"
+      ],
+      "unit": "HUD element names",
+      "source": "valve",
+      "used_by": "hide",
+      "note": "Every default HUD element HUDShouldDraw is asked about.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "gravity_cm_s2",
+      "value": 981,
+      "unit": "cm/s2",
+      "source": "research",
+      "used_by": "stage",
+      "note": "Earth gravity; set as sv_gravity = value / cm_per_unit so things fall at true speed for their size."
+    },
+    {
+      "id": "size_display_offset_cm",
+      "value": 0.02,
+      "unit": "cm",
+      "source": "research",
+      "used_by": "katamath",
+      "note": "Katamari adds a flat 0.02 cm to the displayed size (REROLL growth document)."
+    },
+    {
+      "id": "after_goal_curve",
+      "value": [
+        [
+          1.0,
+          1.0
+        ],
+        [
+          1.5,
+          0.5
+        ],
+        [
+          2.0,
+          0.2
+        ]
+      ],
+      "unit": "[size/goal, growth multiplier]",
+      "source": "research",
+      "used_by": "katamath",
+      "note": "Growth is full until the goal, then falls: Make a Star 1 measured 0.8/0.8/0.4/0.16 at 5/10/15/20 cm with a 10 cm goal (REROLL), divided by the 0.8 object rate. Held at the last value beyond the curve."
+    },
+    {
+      "id": "fog_start_diameters",
+      "value": 1.5,
+      "unit": "diameters",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "Fog starts right in front of the katamari.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "fog_end_diameters",
+      "value": 13,
+      "unit": "diameters",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "About 8 James-heights of sight, like Silent Hill 2 on foot.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "ground_tile_cm",
+      "value": 32,
+      "unit": "cm",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "The ground texture repeats every this many cm.",
+      "unverified": [
+        "value"
+      ]
+    }
   ]
 }
