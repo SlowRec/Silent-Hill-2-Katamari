@@ -32,6 +32,14 @@ function GM:ScoreboardHide() end
 function GM:ChatText(index, name, text, kind) return true end
 function GM:PreDrawViewModel(vm, ply, weapon) return true end
 
+-- Only Katamari's and SILENT HILL 2's own sounds are heard. Physics impacts, scrapes and footsteps from
+-- Half-Life 2 are dropped: default_silent alone isn't enough, it inherits default's impact sounds.
+function GM:EntityEmitSound(data)
+	if SK.Sheets.sounds[data.OriginalSoundName] then return nil end
+	if string.find(data.SoundName or "", "silent_katamari/", 1, true) then return nil end
+	return false
+end
+
 -- Binds that would open Garry's Mod things. Movement, mouse and Esc stay untouched.
 local BLOCKED = { "messagemode", "messagemode2", "+zoom", "+menu", "+menu_context", "impulse 100", "impulse 201",
 	"noclip", "kill", "+voicerecord", "gm_showhelp", "gm_showteam", "gm_showspare1", "gm_showspare2", "+showscores",

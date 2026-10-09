@@ -51,9 +51,12 @@ local function open()
 		RunConsoleCommand("sk_restart")
 		close()
 	end)
-	button(menu, L("pause_quit"), y + step * 2, function()
-		RunConsoleCommand("quit")
-	end)
+	-- Garry's Mod keeps a list of commands Lua may not run; if "quit" is on it there is no quit button.
+	if not (IsConCommandBlocked and IsConCommandBlocked("quit")) then
+		button(menu, L("pause_quit"), y + step * 2, function()
+			RunConsoleCommand("quit")
+		end)
+	end
 	gui.EnableScreenClicker(true)
 	setPaused(true)
 end

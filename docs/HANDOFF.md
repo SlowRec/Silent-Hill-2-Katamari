@@ -52,7 +52,8 @@ The gamemode must be in `garrysmod/addons/silent_katamari` for a local run: copy
 (Melty does this on install). In game: console `sk_dump`, `sk_selftest` (prints catches); check
 `garrysmod/console.log` if launched with `-condebug`. Things to look at: the fog hides the map, no Garry's Mod UI
 anywhere (Esc, Tab, Q, C, chat), James stands behind the ball facing the camera and animates, objects are the
-right size, sounds play, the loading screen shows.
+right size, sounds play (and no Half-Life 2 impact sounds), the loading screen shows, the sky is fog-coloured when
+looking up, the pause menu has a quit button and it works (if not, `IsConCommandBlocked("quit")` was wrong).
 
 ## 3. Fix, verify, record
 - Each fix: sheet first, `python tools/gen.py`, `python tools/preflight.py`, code, tests.

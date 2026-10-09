@@ -7,7 +7,7 @@ read_globals = {
 	"player", "game", "engine", "physenv", "sound", "surface", "draw", "render", "cam", "vgui", "gui", "input",
 	"bit", "Vector", "Angle", "Matrix", "Color", "Mesh", "Material", "CreateMaterial", "ClientsideModel", "IsValid",
 	"SafeRemoveEntity", "LocalPlayer", "CurTime", "FrameTime", "ScrW", "ScrH", "Lerp", "CreateConVar",
-	"CreateClientConVar", "GetConVarString", "RunConsoleCommand", "concommand", "DrawColorModify",
+	"CreateClientConVar", "GetConVarString", "RunConsoleCommand", "IsConCommandBlocked", "concommand", "DrawColorModify",
 	"SetGlobal2String", "GetGlobal2String", "SetGlobal2Float", "GetGlobal2Float", "SetGlobal2Int", "GetGlobal2Int",
 	"SetGlobal2Bool", "GetGlobal2Bool", "SetGlobal2Vector", "GetGlobal2Vector", "vector_origin",
 	math = { fields = { "Clamp", "Round", "ApproachAngle" } },

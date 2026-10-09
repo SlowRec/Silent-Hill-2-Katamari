@@ -63,6 +63,17 @@ neither guest game ever runs, is launched, patched or hooked. They are only read
     texture flip, TTF names). win-x64 single-file exe builds (~50 MB).
   - Package `dist/silent-katamari-0.1.0.zip` (55 files): Melty validate_recipe = valid, one_click_check = yes.
   - Bundled vgmstream r2117 win64 zip sha256 6c4a8a38…dc6c (identical vgmstream-cli.exe to Katamari Sandbox's).
+- 2026-10-09 Garry's Mod API check against the wiki text (luttje/glua-api-snippets; wiki.facepunch.com is blocked
+  here) plus Facepunch/garrysmod `scripts/surfaceproperties.txt`. Every function the gamemode calls exists; the only
+  names not in the API are our NetworkVar accessors. Found and fixed from the docs (still to see in the real game):
+  - PreDrawSkyBox is never called on maps without a 3D skybox (gm_flatgrass): the 2D sky is now painted over in
+    PostDraw2DSkyBox.
+  - `default_silent` copies the impact sounds of `default`: entity sounds that aren't ours are now dropped in
+    EntityEmitSound.
+  - Esc: holding SHIFT still opens Garry's Mod's menu, and four blocked Esc presses in a short time make it show a
+    note on that (menu realm, out of our reach). hide[pause_menu] is now "partly".
+  - `quit` may be on Garry's Mod's blocked list for RunConsoleCommand: the quit button only shows when
+    IsConCommandBlocked("quit") is false.
 - Not yet verified in a real run (needs the user's PC): SH2 encryption/compression/Oodle/usmap, James mesh path and
   clip names, OUAK bundle layout/object table/prefab linkage/CRI audio, studiomdl on the player's Garry's Mod,
   every GMod API path (fog, sky clear, pause menu, loading screen via asset://, quit command).

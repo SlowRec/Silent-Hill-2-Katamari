@@ -186,6 +186,13 @@
       "purpose": "No view model."
     },
     {
+      "id": "GM:EntityEmitSound",
+      "hook": "EntityEmitSound",
+      "realm": "shared",
+      "system": "hide",
+      "purpose": "Drop every entity sound that isn't one of ours (sounds sheet): Half-Life 2 physics impacts, scrapes, footsteps."
+    },
+    {
       "id": "GM:CalcView",
       "hook": "CalcView",
       "realm": "client",
@@ -218,7 +225,14 @@
       "hook": "PreDrawSkyBox",
       "realm": "client",
       "system": "atmosphere",
-      "purpose": "Clear the sky to the fog colour."
+      "purpose": "Clear the sky to the fog colour (maps with a 3D skybox only; returning true skips both skies)."
+    },
+    {
+      "id": "GM:PostDraw2DSkyBox",
+      "hook": "PostDraw2DSkyBox",
+      "realm": "client",
+      "system": "atmosphere",
+      "purpose": "Paint the 2D sky over with the fog colour (maps without a 3D skybox, such as gm_flatgrass, never call PreDrawSkyBox)."
     },
     {
       "id": "GM:RenderScreenspaceEffects",

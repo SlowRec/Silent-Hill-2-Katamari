@@ -28,10 +28,17 @@ end
 function GM:SetupWorldFog() return applyFog(1) end
 function GM:SetupSkyboxFog(scale) return applyFog(scale) end
 
+-- Maps with a 3D skybox call PreDrawSkyBox (returning true skips both skies); maps with only a 2D sky
+-- (gm_flatgrass) never call it, so the 2D sky is also painted over right after it is drawn.
 function GM:PreDrawSkyBox()
 	local c = fogColor()
 	render.Clear(c[1], c[2], c[3], 255)
 	return true
+end
+
+function GM:PostDraw2DSkyBox()
+	local c = fogColor()
+	render.Clear(c[1], c[2], c[3], 255)
 end
 
 function GM:PreDrawOpaqueRenderables(depth, sky)
