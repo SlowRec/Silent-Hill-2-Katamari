@@ -13,7 +13,12 @@ User's request: Garry's Mod must not show inside the game. Only Katamari and SH2
 
 ## Melty
 - Remix of `katamari-sandbox` v0.1.0 by Ian Crocenzi (MIT). Draft: modId `ce4844b8-5f06-4fc1-a13c-df84d2fcdeca`,
-  slug `katamari-sandbox-remix`, Studio https://melty.gg/studio/ce4844b8-5f06-4fc1-a13c-df84d2fcdeca
+  slug `silent-katamari` (page https://melty.gg/m/silent-katamari once published),
+  Studio https://melty.gg/studio/ce4844b8-5f06-4fc1-a13c-df84d2fcdeca
+- 2026-10-09 Listing chosen by the user: title "Silent Katamari", tagline "James Sunderland rolls up Katamari in
+  Silent Hill's fog." Saved with update_mod, along with the games (garrys-mod, custom-once-upon-a-katamari,
+  custom-silent-hill-2). The user then chose license MIT and allowed remixes (saved with update_mod). Still to
+  write: the description (after the real run).
 - Games (search_games): `garrys-mod` (primary, engine source, **no loader**: plain addon files),
   `custom-once-upon-a-katamari` (secondary, Steam 1880620), `custom-silent-hill-2` (secondary, Steam 2124490).
   Neither guest is in Melty's catalog: the mod finds them itself through Steam and says so in game when one is missing.

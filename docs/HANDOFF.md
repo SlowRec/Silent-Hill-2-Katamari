@@ -63,10 +63,10 @@ looking up, the pause menu has a quit button and it works (if not, `IsConCommand
 
 ## 4. Melty (with the user)
 - Draft listing (a remix of Katamari Sandbox by Ian Crocenzi): modId `ce4844b8-5f06-4fc1-a13c-df84d2fcdeca`,
-  Studio https://melty.gg/studio/ce4844b8-5f06-4fc1-a13c-df84d2fcdeca. Its games still say We Love Katamari:
-  `update_mod` gameSlugs → `["garrys-mod", "custom-once-upon-a-katamari", "custom-silent-hill-2"]`.
-- Still to ask the user: title (≤ 30 chars), tagline, description (from the real build), license (repo uses MIT,
-  same as the original), whether others may remix it. Then:
+  Studio https://melty.gg/studio/ce4844b8-5f06-4fc1-a13c-df84d2fcdeca. Title "Silent Katamari", tagline and games
+  are saved (MODLOG "Melty").
+- Still to settle with the user (see MODLOG for any answers already given): description (from the real build),
+  license (repo uses MIT, same as the original), whether others may remix it. Then:
   `python tools/package.py` → `inspect_package`, `validate_recipe`, `one_click_check` (last cloud run: valid, one
   click yes) → `start_upload`/PUT/`finish_upload` → `submit_release` with `dist/melty.json` → screenshot of the real
   game (`add_screenshot`/PUT/`finish_screenshot`) → summary → publish only when the user says so.
