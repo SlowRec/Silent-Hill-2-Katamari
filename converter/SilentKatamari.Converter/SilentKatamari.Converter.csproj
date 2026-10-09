@@ -28,6 +28,8 @@
     <PackageReference Include="CUE4Parse-Conversion" Version="1.2.2.202610" />
     <PackageReference Include="AssetsTools.NET" Version="3.0.5" />
     <PackageReference Include="AssetRipper.TextureDecoder" Version="2.6.3" />
+    <!-- Patched transitive dependency (CUE4Parse brings 9.0.0, which has a known advisory). -->
+    <PackageReference Include="Microsoft.Bcl.Memory" Version="10.0.12" />
   </ItemGroup>
 
   <ItemGroup>

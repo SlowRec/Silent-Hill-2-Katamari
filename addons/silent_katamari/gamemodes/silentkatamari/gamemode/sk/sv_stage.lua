@@ -13,14 +13,18 @@ function ST.Row() return SK.Growth.Stage() end
 function ST.State() return GetGlobal2String("sk_state", "intro") end
 local function setState(s) SetGlobal2String("sk_state", s) end
 
--- Floor height at the stage centre, found once by tracing down (the sheet's z is only a fallback).
+-- The stage centre: the map's player start plus the sheet's offset, on the floor found by tracing down from
+-- there (always inside the map, unlike a trace from the sky). Sent to the client for the ground and fog.
 function ST.StartPos()
-	local c = ST.Row().center
 	if not floorZ then
-		local tr = util.TraceLine({ start = Vector(c[1], c[2], 16000), endpos = Vector(c[1], c[2], -16000), mask = MASK_SOLID_BRUSHONLY })
-		floorZ = tr.Hit and tr.HitPos.z or c[3]
+		local c = ST.Row().center
+		local spawn = ents.FindByClass("info_player_start")[1]
+		local base = (IsValid(spawn) and spawn:GetPos() or vector_origin) + Vector(c[1], c[2], c[3])
+		local tr = util.TraceLine({ start = base + Vector(0, 0, 64), endpos = base - Vector(0, 0, 4096), mask = MASK_SOLID_BRUSHONLY })
+		floorZ = tr.Hit and not tr.StartSolid and tr.HitPos or base
+		SetGlobal2Vector("sk_floor", floorZ)
 	end
-	return Vector(c[1], c[2], floorZ)
+	return floorZ
 end
 
 local function clearObjects()
@@ -149,7 +153,8 @@ function GM:InitPostEntity()
 	physenv.SetPerformanceSettings({ MaxVelocity = 20000, MaxAngularVelocity = 36000 })
 end
 
-function GM:PlayerInitialSpawn(ply)
+function GM:PlayerInitialSpawn(ply, transition)
+	self.BaseClass.PlayerInitialSpawn(self, ply, transition)
 	timer.Simple(0.5, function()
 		if IsValid(ply) and #player.GetAll() == 1 then ST.Start() end
 	end)

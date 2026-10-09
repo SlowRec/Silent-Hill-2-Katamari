@@ -12,3 +12,4 @@ __pycache__/
 
 # Agent worktrees and local Claude state
 /.claude/
+/dist/

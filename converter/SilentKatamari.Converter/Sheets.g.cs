@@ -89,7 +89,7 @@ public sealed record StageRow(string Id, string Map, IReadOnlyList<double> Cente
 
 public static class Stage
 {
-    public static readonly StageRow clearing = new("clearing", "gm_flatgrass", new double[] { 0.0, 0.0, -12288.0 }, 5.0, 15.0, new double[] { 15.0, 18.0, 21.0, 22.5 }, 45.0, 240, new string[] { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }, "sh2_ground_tex", 12.0, "sh2.music", "sh2.ambience", "sh2.radio");
+    public static readonly StageRow clearing = new("clearing", "gm_flatgrass", new double[] { 0.0, 0.0, 0.0 }, 5.0, 15.0, new double[] { 15.0, 18.0, 21.0, 22.5 }, 45.0, 240, new string[] { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }, "sh2_ground_tex", 12.0, "sh2.music", "sh2.ambience", "sh2.radio");
     public static readonly IReadOnlyList<StageRow> All = new[] { clearing };
     public static StageRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }

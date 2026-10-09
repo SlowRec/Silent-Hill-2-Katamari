@@ -12,7 +12,6 @@ using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse_Conversion.Animations;
 using CUE4Parse_Conversion.Dto;
-using CUE4Parse_Conversion.Meshes;
 using CUE4Parse_Conversion.Options;
 
 namespace SilentKatamari.Converter.Sh2;
@@ -123,7 +122,10 @@ public sealed class JamesExtractor
 
         var dtos = new List<(string Key, SkeletalMeshDto Dto)>();
         foreach (var (key, mesh) in parts)
-            if (MeshConverter.TryConvert(mesh, out SkeletalMeshDto dto, EMeshQuality.All)) dtos.Add((key, dto));
+        {
+            try { dtos.Add((key, new SkeletalMeshDto(mesh, EMeshQuality.All, ENaniteMeshFormat.NoNanite, false))); }
+            catch (Exception e) { _ctx.Log.Warn($"sh2: {Path.GetFileName(key)} not converted: {e.Message}"); }
+        }
         if (dtos.Count == 0) throw new InvalidOperationException("James's model could not be converted");
 
         int maxTris = Characters.james.MaxTriangles;

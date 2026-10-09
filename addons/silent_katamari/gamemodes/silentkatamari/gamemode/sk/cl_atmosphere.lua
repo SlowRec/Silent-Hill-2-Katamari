@@ -48,15 +48,8 @@ function GM:RenderScreenspaceEffects()
 	DrawColorModify(grade)
 end
 
--- The stage centre as the client knows it: the floor under the katamari's start (the server traced it).
-local stagePos
-function SK.StagePos()
-	if stagePos then return stagePos end
-	local c = SK.Growth.Stage().center
-	local tr = util.TraceLine({ start = Vector(c[1], c[2], 16000), endpos = Vector(c[1], c[2], -16000), mask = MASK_SOLID_BRUSHONLY })
-	stagePos = Vector(c[1], c[2], tr.Hit and tr.HitPos.z or c[3])
-	return stagePos
-end
+-- The stage centre as the server traced it (sv_stage.lua ST.StartPos).
+function SK.StagePos() return GetGlobal2Vector("sk_floor", vector_origin) end
 
 -- Music, ambience and radio static: started once, mixed every frame.
 function GM:Think()

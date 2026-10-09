@@ -9,7 +9,7 @@ read_globals = {
 	"SafeRemoveEntity", "LocalPlayer", "CurTime", "FrameTime", "ScrW", "ScrH", "Lerp", "CreateConVar",
 	"CreateClientConVar", "GetConVarString", "RunConsoleCommand", "concommand", "DrawColorModify",
 	"SetGlobal2String", "GetGlobal2String", "SetGlobal2Float", "GetGlobal2Float", "SetGlobal2Int", "GetGlobal2Int",
-	"SetGlobal2Bool", "GetGlobal2Bool", "vector_origin",
+	"SetGlobal2Bool", "GetGlobal2Bool", "SetGlobal2Vector", "GetGlobal2Vector", "vector_origin",
 	math = { fields = { "Clamp", "Round", "ApproachAngle" } },
 	string = { fields = { "StartWith" } },
 	"FCVAR_REPLICATED", "FCVAR_ARCHIVE", "CHAN_STATIC", "MATERIAL_FOG_LINEAR", "MASK_SOLID", "MASK_SOLID_BRUSHONLY",

@@ -12,7 +12,7 @@
     },
     "center": {
       "type": "list:number",
-      "about": "stage centre in Source units (x, y, z of the floor)"
+      "about": "offset of the stage centre from the map's player start, in Source units (x, y, z); the floor is found by tracing down from there"
     },
     "start_diameter_cm": {
       "type": "number",
@@ -66,7 +66,7 @@
       "center": [
         0,
         0,
-        -12288
+        0
       ],
       "start_diameter_cm": 5,
       "goal_cm": 15,
