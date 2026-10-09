@@ -2,19 +2,79 @@
   "sheet": "commands",
   "about": "Console commands and settings. None are needed to play; they exist for testing and for the pause menu.",
   "columns": {
-    "id": { "type": "id", "about": "command or convar name" },
-    "kind": { "type": "enum:concommand|server_convar|convar", "about": "type" },
-    "realm": { "type": "enum:server|client", "about": "where it is defined" },
-    "default": { "type": "string", "about": "default value ('-' for commands)" },
-    "help": { "type": "text", "about": "help text" },
-    "system": { "type": "ref:systems", "about": "owner" }
+    "id": {
+      "type": "id",
+      "about": "command or convar name"
+    },
+    "kind": {
+      "type": "enum:concommand|server_convar|convar",
+      "about": "type"
+    },
+    "realm": {
+      "type": "enum:server|client",
+      "about": "where it is defined"
+    },
+    "default": {
+      "type": "string",
+      "about": "default value ('-' for commands)"
+    },
+    "help": {
+      "type": "text",
+      "about": "help text"
+    },
+    "system": {
+      "type": "ref:systems",
+      "about": "owner"
+    }
   },
   "rows": [
-    { "id": "sk_restart", "kind": "concommand", "realm": "server", "default": "-", "help": "Restart the stage: new katamari at the start size, objects placed again, timer reset.", "system": "stage" },
-    { "id": "sk_selftest", "kind": "concommand", "realm": "server", "default": "-", "help": "Test run: rolls the katamari straight ahead for 15 s and prints every catch and the final size to the console.", "system": "stage" },
-    { "id": "sk_dump", "kind": "concommand", "realm": "server", "default": "-", "help": "Prints what content was found per game and how many objects were placed, for the test log.", "system": "content" },
-    { "id": "sk_growth", "kind": "server_convar", "realm": "server", "default": "2", "help": "Growth multiplier (1 = Katamari's own volume rate).", "system": "growth" },
-    { "id": "sk_hud_scale", "kind": "convar", "realm": "client", "default": "1", "help": "Size of the HUD.", "system": "hud" },
-    { "id": "sk_music_volume", "kind": "convar", "realm": "client", "default": "1", "help": "Music, ambience and radio volume (0-1).", "system": "atmosphere" }
+    {
+      "id": "sk_restart",
+      "kind": "concommand",
+      "realm": "server",
+      "default": "-",
+      "help": "Restart the stage: new katamari at the start size, objects placed again, timer reset.",
+      "system": "stage"
+    },
+    {
+      "id": "sk_selftest",
+      "kind": "concommand",
+      "realm": "server",
+      "default": "-",
+      "help": "Test run: rolls the katamari straight ahead for 15 s and prints every catch and the final size to the console.",
+      "system": "stage"
+    },
+    {
+      "id": "sk_dump",
+      "kind": "concommand",
+      "realm": "server",
+      "default": "-",
+      "help": "Prints what content was found per game and how many objects were placed, for the test log.",
+      "system": "content"
+    },
+    {
+      "id": "sk_growth",
+      "kind": "server_convar",
+      "realm": "server",
+      "default": "1",
+      "help": "Growth multiplier (1 = Katamari's own volume rate).",
+      "system": "growth"
+    },
+    {
+      "id": "sk_hud_scale",
+      "kind": "convar",
+      "realm": "client",
+      "default": "1",
+      "help": "Size of the HUD.",
+      "system": "hud"
+    },
+    {
+      "id": "sk_music_volume",
+      "kind": "convar",
+      "realm": "client",
+      "default": "1",
+      "help": "Music, ambience and radio volume (0-1).",
+      "system": "atmosphere"
+    }
   ]
 }

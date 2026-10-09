@@ -1,0 +1,11 @@
+"silentkatamari"
+{
+	"base"		"base"
+	"title"		"Silent Katamari"
+	"maps"		"^gm_flatgrass"
+	"menusystem"	"0"
+	"workshopid"	""
+	"settings"
+	{
+	}
+}

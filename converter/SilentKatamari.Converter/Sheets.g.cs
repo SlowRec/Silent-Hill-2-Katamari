@@ -24,7 +24,7 @@ public static class Extract
     public static readonly ExtractRow status = new("status", "gmod", "status", "result of every other row, converter version, each game's folder and Steam buildid", "data_static/silent_katamari/status.json", "content", true);
     public static readonly ExtractRow ouak_rules = new("ouak_rules", "ouak", "rule_table", "MonoInfo entries (catch size, bounding box, volume rate) in the object table ScriptableObjects", "data_static/silent_katamari/rules.json", "growth", true);
     public static readonly ExtractRow ouak_objects = new("ouak_objects", "ouak", "object_set", "for each tier: objects from the object table whose size fits, their prefab's MeshFilter meshes and main textures", "data_static/silent_katamari/objects.json", "stage", true);
-    public static readonly ExtractRow ouak_core = new("ouak_core", "ouak", "object_set", "the katamari core mesh and texture the Prince rolls (prefab whose name contains 'core' or 'katamari' with a MeshFilter)", "data_static/silent_katamari/core.json", "ball", false);
+    public static readonly ExtractRow ouak_core = new("ouak_core", "ouak", "static_mesh", "the katamari core mesh and texture the Prince rolls (prefab whose name contains 'core' or 'katamari' with a MeshFilter)", "data_static/silent_katamari/core.json", "ball", false);
     public static readonly ExtractRow ouak_hud = new("ouak_hud", "ouak", "sprite_set", "the in-game size display prefab: its sprites, colours and layout", "data_static/silent_katamari/hud.json", "hud", false);
     public static readonly ExtractRow ouak_font = new("ouak_font", "ouak", "font", "the Font asset used by the size display text", "resource/fonts/silent_katamari.ttf", "hud", false);
     public static readonly ExtractRow ouak_snd_rollup_s = new("ouak_snd_rollup_s", "ouak", "sound", "roll-up sound for small objects (CRI cue / AudioClip name containing 'maki' and the smallest size letter)", "sound/silent_katamari/ouak/rollup_s.wav", "sounds", false);
@@ -44,16 +44,16 @@ public static class Extract
     public static ExtractRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }
 
-/// <summary>Rings of Katamari objects around the stage centre. The converter picks real objects from the player's Once Upon A KATAMARI whose own pickup size (the katamari size needed to roll it up) falls in each tier; the stage places them. Tier bounds follow the pickup sizes of Make a Star 1 (REROLL object table): about 40% of placements in the smallest tier, post-goal bait at 10-25 cm, unpickable walls from 35 cm.</summary>
+/// <summary>Rings of Katamari objects around the stage centre. The converter picks real objects from the player's Once Upon A KATAMARI whose own pickup size (the katamari size needed to roll it up) falls in each tier; the stage places them. Tier bounds follow Make a Star 1's pickup sizes (REROLL object table); counts are tuned with tools/bench/katamath_bench.lua so the goal comes after about 57% of the objects (Make a Star 1: 53%) and the best rating stays reachable.</summary>
 public sealed record TierRow(string Id, double PickupMinCm, double PickupMaxCm, int Kinds, int Count, double RingMinM, double RingMaxM, bool Catchable, string Prefer);
 
 public static class Tiers
 {
-    public static readonly TierRow t1_smallest = new("t1_smallest", 1.5, 4.5, 10, 120, 0.05, 0.7, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
-    public static readonly TierRow t2_tiny = new("t2_tiny", 4.5, 7.6, 8, 70, 0.2, 1.1, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
-    public static readonly TierRow t3_small = new("t3_small", 7.6, 10.0, 6, 40, 0.5, 1.7, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
-    public static readonly TierRow t4_medium = new("t4_medium", 10.0, 14.5, 6, 30, 0.9, 2.3, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
-    public static readonly TierRow t5_big = new("t5_big", 14.5, 25.0, 4, 14, 1.4, 2.8, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t1_smallest = new("t1_smallest", 1.5, 4.5, 10, 70, 0.05, 0.7, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t2_tiny = new("t2_tiny", 4.5, 7.6, 8, 60, 0.2, 1.1, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t3_small = new("t3_small", 7.6, 10.0, 6, 70, 0.5, 1.7, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t4_medium = new("t4_medium", 10.0, 14.5, 6, 65, 0.9, 2.3, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
+    public static readonly TierRow t5_big = new("t5_big", 14.5, 25.0, 4, 35, 1.4, 2.8, true, "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any");
     public static readonly TierRow t6_walls = new("t6_walls", 45.0, 120.0, 3, 8, 1.0, 3.0, false, "big furniture-like things that make walls and corners");
     public static readonly IReadOnlyList<TierRow> All = new[] { t1_smallest, t2_tiny, t3_small, t4_medium, t5_big, t6_walls };
     public static TierRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
@@ -89,7 +89,7 @@ public sealed record StageRow(string Id, string Map, IReadOnlyList<double> Cente
 
 public static class Stage
 {
-    public static readonly StageRow clearing = new("clearing", "gm_flatgrass", new double[] { 0.0, 0.0, -12288.0 }, 5.0, 15.0, new double[] { 15.0, 18.0, 21.0, 24.0 }, 45.0, 240, new string[] { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }, "sh2_ground_tex", 12.0, "sh2.music", "sh2.ambience", "sh2.radio");
+    public static readonly StageRow clearing = new("clearing", "gm_flatgrass", new double[] { 0.0, 0.0, -12288.0 }, 5.0, 15.0, new double[] { 15.0, 18.0, 21.0, 22.5 }, 45.0, 240, new string[] { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }, "sh2_ground_tex", 12.0, "sh2.music", "sh2.ambience", "sh2.radio");
     public static readonly IReadOnlyList<StageRow> All = new[] { clearing };
     public static StageRow? ById(string id) { foreach (var r in All) if (r.Id == id) return r; return null; }
 }

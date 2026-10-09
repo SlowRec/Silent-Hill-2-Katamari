@@ -384,6 +384,83 @@
       "unverified": [
         "value"
       ]
+    },
+    {
+      "id": "rollup_tiers_cm",
+      "value": [
+        5,
+        12
+      ],
+      "unit": "cm pickup size",
+      "source": "tuned",
+      "used_by": "sounds",
+      "note": "Roll-up sound by object: small below the first, medium below the second, large above (Katamari varies the sound with object size).",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "james_arm_upper",
+      "value": [
+        -70,
+        0,
+        0
+      ],
+      "unit": "degrees (pitch, yaw, roll) on the upper arm bones",
+      "source": "tuned",
+      "used_by": "james",
+      "note": "Raises his upper arms forward toward the ball; the bone axes of the compiled model decide the sign, so this is set by eye in game. Mirrored for the right arm.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "james_arm_lower",
+      "value": [
+        -25,
+        0,
+        0
+      ],
+      "unit": "degrees (pitch, yaw, roll) on the forearm bones",
+      "source": "tuned",
+      "used_by": "james",
+      "note": "Bends the forearms so the palms rest on the ball.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "color_saturation",
+      "value": 0.45,
+      "unit": "x",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "Silent Hill's washed-out colour.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "color_contrast",
+      "value": 1.08,
+      "unit": "x",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "A little extra contrast after desaturating.",
+      "unverified": [
+        "value"
+      ]
+    },
+    {
+      "id": "color_brightness",
+      "value": -0.04,
+      "unit": "offset",
+      "source": "tuned",
+      "used_by": "atmosphere",
+      "note": "Slightly darker overall.",
+      "unverified": [
+        "value"
+      ]
     }
   ]
 }

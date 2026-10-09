@@ -18,7 +18,7 @@ SK.Sheets.commands = {
 	["sk_restart"] = { id = "sk_restart", kind = "concommand", realm = "server", default = "-", help = "Restart the stage: new katamari at the start size, objects placed again, timer reset.", system = "stage" },
 	["sk_selftest"] = { id = "sk_selftest", kind = "concommand", realm = "server", default = "-", help = "Test run: rolls the katamari straight ahead for 15 s and prints every catch and the final size to the console.", system = "stage" },
 	["sk_dump"] = { id = "sk_dump", kind = "concommand", realm = "server", default = "-", help = "Prints what content was found per game and how many objects were placed, for the test log.", system = "content" },
-	["sk_growth"] = { id = "sk_growth", kind = "server_convar", realm = "server", default = "2", help = "Growth multiplier (1 = Katamari's own volume rate).", system = "growth" },
+	["sk_growth"] = { id = "sk_growth", kind = "server_convar", realm = "server", default = "1", help = "Growth multiplier (1 = Katamari's own volume rate).", system = "growth" },
 	["sk_hud_scale"] = { id = "sk_hud_scale", kind = "convar", realm = "client", default = "1", help = "Size of the HUD.", system = "hud" },
 	["sk_music_volume"] = { id = "sk_music_volume", kind = "convar", realm = "client", default = "1", help = "Music, ambience and radio volume (0-1).", system = "atmosphere" },
 }
@@ -27,7 +27,7 @@ SK.Sheets.extract = {
 	["status"] = { id = "status", game = "gmod", kind = "status", source = "result of every other row, converter version, each game's folder and Steam buildid", output = "data_static/silent_katamari/status.json", used_by = "content", required = true },
 	["ouak_rules"] = { id = "ouak_rules", game = "ouak", kind = "rule_table", source = "MonoInfo entries (catch size, bounding box, volume rate) in the object table ScriptableObjects", output = "data_static/silent_katamari/rules.json", used_by = "growth", required = true },
 	["ouak_objects"] = { id = "ouak_objects", game = "ouak", kind = "object_set", source = "for each tier: objects from the object table whose size fits, their prefab's MeshFilter meshes and main textures", output = "data_static/silent_katamari/objects.json", used_by = "stage", required = true },
-	["ouak_core"] = { id = "ouak_core", game = "ouak", kind = "object_set", source = "the katamari core mesh and texture the Prince rolls (prefab whose name contains 'core' or 'katamari' with a MeshFilter)", output = "data_static/silent_katamari/core.json", used_by = "ball", required = false },
+	["ouak_core"] = { id = "ouak_core", game = "ouak", kind = "static_mesh", source = "the katamari core mesh and texture the Prince rolls (prefab whose name contains 'core' or 'katamari' with a MeshFilter)", output = "data_static/silent_katamari/core.json", used_by = "ball", required = false },
 	["ouak_hud"] = { id = "ouak_hud", game = "ouak", kind = "sprite_set", source = "the in-game size display prefab: its sprites, colours and layout", output = "data_static/silent_katamari/hud.json", used_by = "hud", required = false },
 	["ouak_font"] = { id = "ouak_font", game = "ouak", kind = "font", source = "the Font asset used by the size display text", output = "resource/fonts/silent_katamari.ttf", used_by = "hud", required = false },
 	["ouak_snd_rollup_s"] = { id = "ouak_snd_rollup_s", game = "ouak", kind = "sound", source = "roll-up sound for small objects (CRI cue / AudioClip name containing 'maki' and the smallest size letter)", output = "sound/silent_katamari/ouak/rollup_s.wav", used_by = "sounds", required = false },
@@ -102,12 +102,18 @@ SK.Sheets.hooks = {
 	["GM:SetupSkyboxFog"] = { id = "GM:SetupSkyboxFog", hook = "SetupSkyboxFog", realm = "client", system = "atmosphere", purpose = "Same fog in the 3D skybox." },
 	["GM:PreDrawSkyBox"] = { id = "GM:PreDrawSkyBox", hook = "PreDrawSkyBox", realm = "client", system = "atmosphere", purpose = "Clear the sky to the fog colour." },
 	["GM:RenderScreenspaceEffects"] = { id = "GM:RenderScreenspaceEffects", hook = "RenderScreenspaceEffects", realm = "client", system = "atmosphere", purpose = "Desaturated, slightly dark colour grading and film grain." },
-	["GM:PostDrawOpaqueRenderables"] = { id = "GM:PostDrawOpaqueRenderables", hook = "PostDrawOpaqueRenderables", realm = "client", system = "james", purpose = "Draw the ground plane and James." },
+	["GM:PreDrawOpaqueRenderables"] = { id = "GM:PreDrawOpaqueRenderables", hook = "PreDrawOpaqueRenderables", realm = "client", system = "atmosphere", purpose = "Draw the ground plane under the stage." },
+	["sk_james_pose"] = { id = "sk_james_pose", hook = "PreRender", realm = "client", system = "james", purpose = "Place, scale and animate James behind the katamari before each frame; bend his arms forward." },
 	["GM:HUDPaint"] = { id = "GM:HUDPaint", hook = "HUDPaint", realm = "client", system = "hud", purpose = "Size display, timer, goal, intro, results." },
 	["GM:OnPauseMenuShow"] = { id = "GM:OnPauseMenuShow", hook = "OnPauseMenuShow", realm = "client", system = "pause", purpose = "Open our pause menu instead of Garry's Mod's." },
 	["GM:Think"] = { id = "GM:Think", hook = "Think", realm = "client", system = "atmosphere", purpose = "Fade music, ambience and radio static." },
+	["GM:PlayerDeathThink"] = { id = "GM:PlayerDeathThink", hook = "PlayerDeathThink", realm = "server", system = "player", purpose = "Respawn at once if anything ever kills the player." },
+	["GM:ShowHelp"] = { id = "GM:ShowHelp", hook = "ShowHelp", realm = "server", system = "hide", purpose = "F1 does nothing." },
+	["GM:ShowTeam"] = { id = "GM:ShowTeam", hook = "ShowTeam", realm = "server", system = "hide", purpose = "F2 does nothing." },
+	["GM:ShowSpare1"] = { id = "GM:ShowSpare1", hook = "ShowSpare1", realm = "server", system = "hide", purpose = "F3 does nothing." },
+	["GM:ShowSpare2"] = { id = "GM:ShowSpare2", hook = "ShowSpare2", realm = "server", system = "hide", purpose = "F4 does nothing." },
 }
-SK.Sheets.hooks_order = { "sk_control_startcommand", "sk_control_move", "sk_pickup_think", "sk_stage_think", "GM:PlayerSpawn", "GM:PlayerLoadout", "GM:PlayerInitialSpawn", "GM:InitPostEntity", "GM:PlayerNoClip", "GM:PlayerSwitchFlashlight", "GM:PlayerSpray", "GM:CanPlayerSuicide", "GM:PlayerUse", "GM:EntityTakeDamage", "GM:HUDShouldDraw", "GM:HUDDrawTargetID", "GM:HUDDrawPickupHistory", "GM:DrawDeathNotice", "GM:ScoreboardShow", "GM:ScoreboardHide", "GM:PlayerBindPress", "GM:ChatText", "GM:PreDrawViewModel", "GM:CalcView", "GM:ShouldDrawLocalPlayer", "GM:SetupWorldFog", "GM:SetupSkyboxFog", "GM:PreDrawSkyBox", "GM:RenderScreenspaceEffects", "GM:PostDrawOpaqueRenderables", "GM:HUDPaint", "GM:OnPauseMenuShow", "GM:Think" }
+SK.Sheets.hooks_order = { "sk_control_startcommand", "sk_control_move", "sk_pickup_think", "sk_stage_think", "GM:PlayerSpawn", "GM:PlayerLoadout", "GM:PlayerInitialSpawn", "GM:InitPostEntity", "GM:PlayerNoClip", "GM:PlayerSwitchFlashlight", "GM:PlayerSpray", "GM:CanPlayerSuicide", "GM:PlayerUse", "GM:EntityTakeDamage", "GM:HUDShouldDraw", "GM:HUDDrawTargetID", "GM:HUDDrawPickupHistory", "GM:DrawDeathNotice", "GM:ScoreboardShow", "GM:ScoreboardHide", "GM:PlayerBindPress", "GM:ChatText", "GM:PreDrawViewModel", "GM:CalcView", "GM:ShouldDrawLocalPlayer", "GM:SetupWorldFog", "GM:SetupSkyboxFog", "GM:PreDrawSkyBox", "GM:RenderScreenspaceEffects", "GM:PreDrawOpaqueRenderables", "sk_james_pose", "GM:HUDPaint", "GM:OnPauseMenuShow", "GM:Think", "GM:PlayerDeathThink", "GM:ShowHelp", "GM:ShowTeam", "GM:ShowSpare1", "GM:ShowSpare2" }
 SK.Sheets.hud = {
 	["size"] = { id = "size", source = "ouak_hud", anchor = "top_left", draw = "Katamari's size display (its own sprites and layout when found): live size in cm/m, ring filling toward the next mark.", text = "-" },
 	["goal"] = { id = "goal", source = "ouak_font", anchor = "top_left", draw = "Goal size under the size display.", text = "-" },
@@ -151,12 +157,18 @@ SK.Sheets.rules = {
 	["fog_start_diameters"] = { id = "fog_start_diameters", value = 1.5, unit = "diameters", source = "tuned", used_by = "atmosphere", note = "Fog starts right in front of the katamari." },
 	["fog_end_diameters"] = { id = "fog_end_diameters", value = 13, unit = "diameters", source = "tuned", used_by = "atmosphere", note = "About 8 James-heights of sight, like Silent Hill 2 on foot." },
 	["ground_tile_cm"] = { id = "ground_tile_cm", value = 32, unit = "cm", source = "tuned", used_by = "atmosphere", note = "The ground texture repeats every this many cm." },
+	["rollup_tiers_cm"] = { id = "rollup_tiers_cm", value = { 5, 12 }, unit = "cm pickup size", source = "tuned", used_by = "sounds", note = "Roll-up sound by object: small below the first, medium below the second, large above (Katamari varies the sound with object size)." },
+	["james_arm_upper"] = { id = "james_arm_upper", value = { -70, 0, 0 }, unit = "degrees (pitch, yaw, roll) on the upper arm bones", source = "tuned", used_by = "james", note = "Raises his upper arms forward toward the ball; the bone axes of the compiled model decide the sign, so this is set by eye in game. Mirrored for the right arm." },
+	["james_arm_lower"] = { id = "james_arm_lower", value = { -25, 0, 0 }, unit = "degrees (pitch, yaw, roll) on the forearm bones", source = "tuned", used_by = "james", note = "Bends the forearms so the palms rest on the ball." },
+	["color_saturation"] = { id = "color_saturation", value = 0.45, unit = "x", source = "tuned", used_by = "atmosphere", note = "Silent Hill's washed-out colour." },
+	["color_contrast"] = { id = "color_contrast", value = 1.08, unit = "x", source = "tuned", used_by = "atmosphere", note = "A little extra contrast after desaturating." },
+	["color_brightness"] = { id = "color_brightness", value = -0.04, unit = "offset", source = "tuned", used_by = "atmosphere", note = "Slightly darker overall." },
 }
-SK.Sheets.rules_order = { "cm_per_unit", "catch_ratio", "volume_rate", "growth_mult", "milestones_cm", "push_accel", "speed_diameters", "min_speed", "dash_mult", "brake", "cam_dist_diameters", "cam_height_diameters", "cam_min_dist", "cam_smooth", "touch_margin", "attach_depth", "bury_hide_ratio", "max_attached", "james_height_ratio", "james_back_ratio", "fog_color", "fog_end_max_m", "radio_start_left_s", "hud_ref_height", "hidden_hud_elements", "gravity_cm_s2", "size_display_offset_cm", "after_goal_curve", "fog_start_diameters", "fog_end_diameters", "ground_tile_cm" }
+SK.Sheets.rules_order = { "cm_per_unit", "catch_ratio", "volume_rate", "growth_mult", "milestones_cm", "push_accel", "speed_diameters", "min_speed", "dash_mult", "brake", "cam_dist_diameters", "cam_height_diameters", "cam_min_dist", "cam_smooth", "touch_margin", "attach_depth", "bury_hide_ratio", "max_attached", "james_height_ratio", "james_back_ratio", "fog_color", "fog_end_max_m", "radio_start_left_s", "hud_ref_height", "hidden_hud_elements", "gravity_cm_s2", "size_display_offset_cm", "after_goal_curve", "fog_start_diameters", "fog_end_diameters", "ground_tile_cm", "rollup_tiers_cm", "james_arm_upper", "james_arm_lower", "color_saturation", "color_contrast", "color_brightness" }
 SK.Sheets.sounds = {
-	["ouak.rollup_s"] = { id = "ouak.rollup_s", extract_ids = { "ouak_snd_rollup_s" }, when = "caught an object under 30 cm", volume = 0.9, level = 70, loop = false, system = "pickup" },
-	["ouak.rollup_m"] = { id = "ouak.rollup_m", extract_ids = { "ouak_snd_rollup_m" }, when = "caught an object under 1.5 m", volume = 0.95, level = 75, loop = false, system = "pickup" },
-	["ouak.rollup_l"] = { id = "ouak.rollup_l", extract_ids = { "ouak_snd_rollup_l" }, when = "caught an object of 1.5 m or more", volume = 1.0, level = 80, loop = false, system = "pickup" },
+	["ouak.rollup_s"] = { id = "ouak.rollup_s", extract_ids = { "ouak_snd_rollup_s" }, when = "caught an object below rules.rollup_tiers_cm[1]", volume = 0.9, level = 70, loop = false, system = "pickup" },
+	["ouak.rollup_m"] = { id = "ouak.rollup_m", extract_ids = { "ouak_snd_rollup_m" }, when = "caught an object below rules.rollup_tiers_cm[2]", volume = 0.95, level = 75, loop = false, system = "pickup" },
+	["ouak.rollup_l"] = { id = "ouak.rollup_l", extract_ids = { "ouak_snd_rollup_l" }, when = "caught a bigger object", volume = 1.0, level = 80, loop = false, system = "pickup" },
 	["ouak.hit"] = { id = "ouak.hit", extract_ids = { "ouak_snd_hit" }, when = "bumped into something too big", volume = 0.8, level = 72, loop = false, system = "ball" },
 	["ouak.dash"] = { id = "ouak.dash", extract_ids = { "ouak_snd_dash" }, when = "dash pressed", volume = 0.8, level = 70, loop = false, system = "control" },
 	["ouak.scaleup"] = { id = "ouak.scaleup", extract_ids = { "ouak_snd_scaleup" }, when = "reached the next size mark", volume = 1.0, level = 0, loop = false, system = "hud" },
@@ -166,7 +178,7 @@ SK.Sheets.sounds = {
 }
 SK.Sheets.sounds_order = { "ouak.rollup_s", "ouak.rollup_m", "ouak.rollup_l", "ouak.hit", "ouak.dash", "ouak.scaleup", "sh2.music", "sh2.ambience", "sh2.radio" }
 SK.Sheets.stage = {
-	["clearing"] = { id = "clearing", map = "gm_flatgrass", center = { 0, 0, -12288 }, start_diameter_cm = 5, goal_cm = 15, rating_cm = { 15, 18, 21, 24 }, max_cm = 45, time_s = 240, tiers = { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }, ground = "sh2_ground_tex", ground_size_m = 12, music = "sh2.music", ambience = "sh2.ambience", radio = "sh2.radio" },
+	["clearing"] = { id = "clearing", map = "gm_flatgrass", center = { 0, 0, -12288 }, start_diameter_cm = 5, goal_cm = 15, rating_cm = { 15, 18, 21, 22.5 }, max_cm = 45, time_s = 240, tiers = { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }, ground = "sh2_ground_tex", ground_size_m = 12, music = "sh2.music", ambience = "sh2.ambience", radio = "sh2.radio" },
 }
 SK.Sheets.stage_order = { "clearing" }
 SK.Sheets.strings = {
@@ -219,11 +231,11 @@ SK.Sheets.systems = {
 }
 SK.Sheets.systems_order = { "sheets", "strings", "content", "katamath", "growth", "sounds", "ball", "mono", "player", "control", "pickup", "attach", "stage", "meshes", "james", "camera", "atmosphere", "hud", "hide", "pause", "loading", "conv_cli", "conv_steam", "conv_ouak", "conv_sh2", "conv_out" }
 SK.Sheets.tiers = {
-	["t1_smallest"] = { id = "t1_smallest", pickup_min_cm = 1.5, pickup_max_cm = 4.5, kinds = 10, count = 120, ring_min_m = 0.05, ring_max_m = 0.7, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
-	["t2_tiny"] = { id = "t2_tiny", pickup_min_cm = 4.5, pickup_max_cm = 7.6, kinds = 8, count = 70, ring_min_m = 0.2, ring_max_m = 1.1, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
-	["t3_small"] = { id = "t3_small", pickup_min_cm = 7.6, pickup_max_cm = 10.0, kinds = 6, count = 40, ring_min_m = 0.5, ring_max_m = 1.7, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
-	["t4_medium"] = { id = "t4_medium", pickup_min_cm = 10.0, pickup_max_cm = 14.5, kinds = 6, count = 30, ring_min_m = 0.9, ring_max_m = 2.3, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
-	["t5_big"] = { id = "t5_big", pickup_min_cm = 14.5, pickup_max_cm = 25.0, kinds = 4, count = 14, ring_min_m = 1.4, ring_max_m = 2.8, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
+	["t1_smallest"] = { id = "t1_smallest", pickup_min_cm = 1.5, pickup_max_cm = 4.5, kinds = 10, count = 70, ring_min_m = 0.05, ring_max_m = 0.7, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
+	["t2_tiny"] = { id = "t2_tiny", pickup_min_cm = 4.5, pickup_max_cm = 7.6, kinds = 8, count = 60, ring_min_m = 0.2, ring_max_m = 1.1, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
+	["t3_small"] = { id = "t3_small", pickup_min_cm = 7.6, pickup_max_cm = 10.0, kinds = 6, count = 70, ring_min_m = 0.5, ring_max_m = 1.7, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
+	["t4_medium"] = { id = "t4_medium", pickup_min_cm = 10.0, pickup_max_cm = 14.5, kinds = 6, count = 65, ring_min_m = 0.9, ring_max_m = 2.3, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
+	["t5_big"] = { id = "t5_big", pickup_min_cm = 14.5, pickup_max_cm = 25.0, kinds = 4, count = 35, ring_min_m = 1.4, ring_max_m = 2.8, catchable = true, prefer = "objects that fit a quiet, uneasy clearing (yokai, Edo and graveyard things) first, then any" },
 	["t6_walls"] = { id = "t6_walls", pickup_min_cm = 45.0, pickup_max_cm = 120.0, kinds = 3, count = 8, ring_min_m = 1.0, ring_max_m = 3.0, catchable = false, prefer = "big furniture-like things that make walls and corners" },
 }
 SK.Sheets.tiers_order = { "t1_smallest", "t2_tiny", "t3_small", "t4_medium", "t5_big", "t6_walls" }

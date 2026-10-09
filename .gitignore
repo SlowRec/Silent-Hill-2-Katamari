@@ -9,3 +9,6 @@
 /converter/publish/
 __pycache__/
 *.log
+
+# Agent worktrees and local Claude state
+/.claude/

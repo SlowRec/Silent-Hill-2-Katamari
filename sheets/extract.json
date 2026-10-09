@@ -11,7 +11,7 @@
       "about": "game read"
     },
     "kind": {
-      "type": "enum:status|container_check|rule_table|object_set|sprite_set|font|sound|skeletal_mesh|anim_set|texture",
+      "type": "enum:status|container_check|rule_table|object_set|static_mesh|sprite_set|font|sound|skeletal_mesh|anim_set|texture",
       "about": "converter handler"
     },
     "source": {
@@ -68,7 +68,7 @@
     {
       "id": "ouak_core",
       "game": "ouak",
-      "kind": "object_set",
+      "kind": "static_mesh",
       "source": "the katamari core mesh and texture the Prince rolls (prefab whose name contains 'core' or 'katamari' with a MeshFilter)",
       "output": "data_static/silent_katamari/core.json",
       "used_by": "ball",

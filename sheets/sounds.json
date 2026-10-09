@@ -2,23 +2,134 @@
   "sheet": "sounds",
   "about": "Sound scripts the game registers from converted files. A row whose files are all missing on this PC stays silent (never replaced by another game's sound).",
   "columns": {
-    "id": { "type": "id", "about": "sound script name" },
-    "extract_ids": { "type": "list:ref:extract", "about": "converted files it plays (random pick when several)" },
-    "when": { "type": "text", "about": "when it plays" },
-    "volume": { "type": "number", "about": "0-1" },
-    "level": { "type": "int", "about": "sound level in dB; 0 = heard only by the local player, not positional" },
-    "loop": { "type": "bool", "about": "plays as a looping stream" },
-    "system": { "type": "ref:systems", "about": "system that plays it" }
+    "id": {
+      "type": "id",
+      "about": "sound script name"
+    },
+    "extract_ids": {
+      "type": "list:ref:extract",
+      "about": "converted files it plays (random pick when several)"
+    },
+    "when": {
+      "type": "text",
+      "about": "when it plays"
+    },
+    "volume": {
+      "type": "number",
+      "about": "0-1"
+    },
+    "level": {
+      "type": "int",
+      "about": "sound level in dB; 0 = heard only by the local player, not positional"
+    },
+    "loop": {
+      "type": "bool",
+      "about": "plays as a looping stream"
+    },
+    "system": {
+      "type": "ref:systems",
+      "about": "system that plays it"
+    }
   },
   "rows": [
-    { "id": "ouak.rollup_s", "extract_ids": ["ouak_snd_rollup_s"], "when": "caught an object under 30 cm", "volume": 0.9, "level": 70, "loop": false, "system": "pickup" },
-    { "id": "ouak.rollup_m", "extract_ids": ["ouak_snd_rollup_m"], "when": "caught an object under 1.5 m", "volume": 0.95, "level": 75, "loop": false, "system": "pickup" },
-    { "id": "ouak.rollup_l", "extract_ids": ["ouak_snd_rollup_l"], "when": "caught an object of 1.5 m or more", "volume": 1.0, "level": 80, "loop": false, "system": "pickup" },
-    { "id": "ouak.hit", "extract_ids": ["ouak_snd_hit"], "when": "bumped into something too big", "volume": 0.8, "level": 72, "loop": false, "system": "ball" },
-    { "id": "ouak.dash", "extract_ids": ["ouak_snd_dash"], "when": "dash pressed", "volume": 0.8, "level": 70, "loop": false, "system": "control" },
-    { "id": "ouak.scaleup", "extract_ids": ["ouak_snd_scaleup"], "when": "reached the next size mark", "volume": 1.0, "level": 0, "loop": false, "system": "hud" },
-    { "id": "sh2.music", "extract_ids": ["sh2_snd_music"], "when": "the whole time you roll", "volume": 0.55, "level": 0, "loop": true, "system": "atmosphere" },
-    { "id": "sh2.ambience", "extract_ids": ["sh2_snd_ambience"], "when": "always, under the music", "volume": 0.7, "level": 0, "loop": true, "system": "atmosphere" },
-    { "id": "sh2.radio", "extract_ids": ["sh2_snd_radio"], "when": "fades in over the last minute; full at time up", "volume": 0.9, "level": 0, "loop": true, "system": "atmosphere" }
+    {
+      "id": "ouak.rollup_s",
+      "extract_ids": [
+        "ouak_snd_rollup_s"
+      ],
+      "when": "caught an object below rules.rollup_tiers_cm[1]",
+      "volume": 0.9,
+      "level": 70,
+      "loop": false,
+      "system": "pickup"
+    },
+    {
+      "id": "ouak.rollup_m",
+      "extract_ids": [
+        "ouak_snd_rollup_m"
+      ],
+      "when": "caught an object below rules.rollup_tiers_cm[2]",
+      "volume": 0.95,
+      "level": 75,
+      "loop": false,
+      "system": "pickup"
+    },
+    {
+      "id": "ouak.rollup_l",
+      "extract_ids": [
+        "ouak_snd_rollup_l"
+      ],
+      "when": "caught a bigger object",
+      "volume": 1.0,
+      "level": 80,
+      "loop": false,
+      "system": "pickup"
+    },
+    {
+      "id": "ouak.hit",
+      "extract_ids": [
+        "ouak_snd_hit"
+      ],
+      "when": "bumped into something too big",
+      "volume": 0.8,
+      "level": 72,
+      "loop": false,
+      "system": "ball"
+    },
+    {
+      "id": "ouak.dash",
+      "extract_ids": [
+        "ouak_snd_dash"
+      ],
+      "when": "dash pressed",
+      "volume": 0.8,
+      "level": 70,
+      "loop": false,
+      "system": "control"
+    },
+    {
+      "id": "ouak.scaleup",
+      "extract_ids": [
+        "ouak_snd_scaleup"
+      ],
+      "when": "reached the next size mark",
+      "volume": 1.0,
+      "level": 0,
+      "loop": false,
+      "system": "hud"
+    },
+    {
+      "id": "sh2.music",
+      "extract_ids": [
+        "sh2_snd_music"
+      ],
+      "when": "the whole time you roll",
+      "volume": 0.55,
+      "level": 0,
+      "loop": true,
+      "system": "atmosphere"
+    },
+    {
+      "id": "sh2.ambience",
+      "extract_ids": [
+        "sh2_snd_ambience"
+      ],
+      "when": "always, under the music",
+      "volume": 0.7,
+      "level": 0,
+      "loop": true,
+      "system": "atmosphere"
+    },
+    {
+      "id": "sh2.radio",
+      "extract_ids": [
+        "sh2_snd_radio"
+      ],
+      "when": "fades in over the last minute; full at time up",
+      "volume": 0.9,
+      "level": 0,
+      "loop": true,
+      "system": "atmosphere"
+    }
   ]
 }

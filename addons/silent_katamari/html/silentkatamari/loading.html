@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Silent Katamari</title>
+<!-- Loading screen shown instead of Garry's Mod's (started with +sv_loadingurl asset://garrysmod/html/silentkatamari/loading.html).
+     Text comes from sheets/strings.json (where = loading) through loading_text.js, written by tools/gen.py. -->
+<style>
+  html, body { margin: 0; height: 100%; background: #8f918d; overflow: hidden; font-family: Georgia, "Times New Roman", serif; }
+  .fog { position: absolute; inset: -20%; background:
+      radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.35), transparent 60%),
+      radial-gradient(ellipse at 70% 60%, rgba(255,255,255,0.25), transparent 55%);
+    animation: drift 18s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
+  .line { position: absolute; left: 0; right: 0; bottom: 18%; text-align: center; color: #e8e8e2;
+    font-size: 3vh; letter-spacing: 0.08em; text-shadow: 0 0 12px rgba(0,0,0,0.5); }
+  .bar { position: absolute; left: 30%; right: 30%; bottom: 12%; height: 2px; background: rgba(255,255,255,0.15); }
+  .bar div { height: 100%; width: 0; background: rgba(240,240,232,0.8); transition: width 0.4s; }
+</style>
+</head>
+<body>
+<div class="fog"></div>
+<div class="line" id="line"></div>
+<div class="bar"><div id="fill"></div></div>
+<script src="loading_text.js"></script>
+<script>
+  var lang = "en";
+  function show() { document.getElementById("line").textContent = (window.SK_LOADING_TEXT || {})[lang] || ""; }
+  // Garry's Mod calls these on its loading screens.
+  function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, language) {
+    if (language && language.substring(0, 2) === "es") lang = "es";
+    show();
+  }
+  var total = 0, needed = 0;
+  function SetFilesTotal(t) { total = t; }
+  function SetFilesNeeded(n) { needed = n; if (total > 0) document.getElementById("fill").style.width = (100 * (total - needed) / total) + "%"; }
+  function SetStatusChanged(s) {}
+  function DownloadingFile(f) {}
+  show();
+</script>
+</body>
+</html>
