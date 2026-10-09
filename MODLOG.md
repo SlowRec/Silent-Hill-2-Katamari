@@ -55,3 +55,14 @@ neither guest game ever runs, is launched, patched or hooked. They are only read
 
 ## Evidence log
 - (none yet from a real run; everything below this line must say how it was verified)
+- 2026-10-09 Built (source + synthetic tests only; NOTHING has run against the real games yet):
+  - Gamemode `silentkatamari`: luacheck clean (24 files), headless bench 17/17 (REROLL pickup anchors: ant 1.5 cm,
+    thumbtack 3.1, caramel 4.4, eraser 7.4; stage reaches 15 cm after 57% of objects, best band reachable).
+  - Converter: 27/27 xunit (Steam/GOG/Epic discovery on a fake tree, safe swap, PNG/VTF/SMD/QC/Euler round trip,
+    utoc/pak trailer parsing, UE->Source axes and facing, Unity vertex streams/half floats/alignment, winding,
+    texture flip, TTF names). win-x64 single-file exe builds (~50 MB).
+  - Package `dist/silent-katamari-0.1.0.zip` (55 files): Melty validate_recipe = valid, one_click_check = yes.
+  - Bundled vgmstream r2117 win64 zip sha256 6c4a8a38…dc6c (identical vgmstream-cli.exe to Katamari Sandbox's).
+- Not yet verified in a real run (needs the user's PC): SH2 encryption/compression/Oodle/usmap, James mesh path and
+  clip names, OUAK bundle layout/object table/prefab linkage/CRI audio, studiomdl on the player's Garry's Mod,
+  every GMod API path (fog, sky clear, pause menu, loading screen via asset://, quit command).
